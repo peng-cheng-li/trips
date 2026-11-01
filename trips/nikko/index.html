@@ -1,77 +1,152 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>日光 ドライブ日帰り</title>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f172a"><title>日光 ドライブ日帰り</title>
 <style>
-:root{--a:#c2410c;--bg:#f7f7f5;--ink:#1c1917;--mut:#78716c}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,"Hiragino Sans","PingFang SC",sans-serif;background:var(--bg);color:var(--ink)}
-main{max-width:640px;margin:auto;padding:20px 16px 40px}
-h1{font-size:1.5rem;margin:8px 0 2px}.sub{color:var(--mut);font-size:.9rem;margin-bottom:16px}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.chip{background:#fff;border:1px solid #e7e5e4;border-radius:99px;padding:4px 10px;font-size:.82rem}
-.chip b{color:var(--a)}
-.tabs{display:flex;gap:6px;margin:18px 0 10px}.tabs button{flex:1;border:0;border-radius:12px;padding:10px 4px;background:#fff;font:inherit;font-weight:600;cursor:pointer;box-shadow:0 1px 2px #0001}
-.tabs button.on{background:var(--a);color:#fff}.tabs small{display:block;font-weight:400;font-size:.72rem;opacity:.85}
-.card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 1px 3px #0001;margin-bottom:12px}
-.opt{display:none}.opt.on{display:block}
-.row{display:flex;gap:12px;padding:9px 0;border-top:1px solid #f0efed}.row:first-child{border:0}
-.t{flex:none;width:52px;font-weight:700;color:var(--a);font-variant-numeric:tabular-nums}
-.row p{margin:0}.row small{color:var(--mut)}
-.tot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:12px;border-radius:12px;background:#fff7ed}
-.tot b{font-size:1.2rem;color:var(--a)}
-h2{font-size:1rem;margin:0 0 8px}ul{margin:0;padding-left:1.1em}li{margin:3px 0}.mut{color:var(--mut);font-size:.8rem}
+:root{--bg:#f4f4f1;--ink:#0f172a;--mut:#64748b;--line:#e5e7eb;--a:#ea580c;--a2:#16a34a;--card:#fff}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","PingFang SC","Noto Sans JP",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+main{max-width:560px;margin:auto;padding:0 14px 48px}
+.hero{margin:0 -14px 14px;padding:28px 20px 22px;color:#fff;background:linear-gradient(135deg,#0f172a 0%,#7c2d12 60%,#ea580c 100%);border-radius:0 0 26px 26px}
+.hero .k{font-size:.75rem;letter-spacing:.12em;opacity:.75}
+.hero h1{font-size:1.75rem;margin:4px 0 6px;font-weight:800;letter-spacing:-.01em}
+.hero .s{font-size:.88rem;opacity:.85}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.stat{background:#ffffff1f;border:1px solid #ffffff2b;border-radius:14px;padding:9px 10px;backdrop-filter:blur(6px)}
+.stat b{display:block;font-size:1.05rem}.stat span{font-size:.7rem;opacity:.8}
+.card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:0 1px 2px #0f172a0d,0 8px 24px -12px #0f172a1f}
+h2{font-size:.78rem;letter-spacing:.08em;color:var(--mut);margin:0 0 10px;font-weight:700}
+.route{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.chip{background:#f1f5f9;border-radius:99px;padding:5px 11px;font-size:.8rem;font-weight:600;white-space:nowrap}
+.arr{color:#cbd5e1;font-size:.8rem}
+.note{font-size:.78rem;color:var(--mut);margin-top:10px}
+.warn{display:inline-block;background:#fff7ed;color:#9a3412;border-radius:8px;padding:2px 8px;font-size:.75rem;font-weight:600}
+.tabs{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:5px;margin:16px 0 12px;background:#e2e2dd;border-radius:16px}
+.tabs button{border:0;border-radius:12px;padding:9px 4px;background:transparent;font:inherit;font-weight:700;font-size:.92rem;color:#334155;cursor:pointer;transition:.15s}
+.tabs button small{display:block;font-weight:500;font-size:.68rem;color:var(--mut)}
+.tabs button.on{background:#fff;color:var(--a);box-shadow:0 2px 6px #0f172a1a}
+.opt{display:none}.opt.on{display:block;animation:f .2s}@keyframes f{from{opacity:0;transform:translateY(4px)}}
+.sum{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.sum .ttl{font-size:1.15rem;font-weight:800}.sum .tag{font-size:.78rem;color:var(--mut)}
+.sum .back{text-align:right;font-size:.72rem;color:var(--mut)}.sum .back b{display:block;font-size:1.1rem;color:var(--ink)}
+.spots{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.spots .chip{background:#fff7ed;color:#9a3412}
+.tl{position:relative;margin-left:4px}
+.tl .r{display:grid;grid-template-columns:50px 1fr;gap:10px;padding:8px 0;position:relative}
+.tl .r::before{content:"";position:absolute;left:58px;top:16px;width:8px;height:8px;border-radius:50%;background:var(--a)}
+.tl .r::after{content:"";position:absolute;left:61.5px;top:26px;bottom:-10px;width:1px;background:var(--line)}
+.tl .r:last-child::after{display:none}
+.tl .t{font-weight:700;font-variant-numeric:tabular-nums;font-size:.9rem}
+.tl .x{padding-left:18px;font-weight:600;font-size:.93rem}.tl .x small{display:block;font-weight:400;color:var(--mut);font-size:.78rem}
+/* receipt */
+.rcpt{position:relative;background:#fffef9;margin:4px 6px 22px;padding:20px 18px 24px;font-family:ui-monospace,"SF Mono",Menlo,"Courier New",monospace;font-size:.82rem;color:#1f2937;box-shadow:0 10px 24px -14px #0f172a55;font-variant-numeric:tabular-nums}
+.rcpt::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:10px;background:linear-gradient(-45deg,transparent 7px,#fffef9 0) 0 0/14px 10px,linear-gradient(45deg,transparent 7px,#fffef9 0) 0 0/14px 10px}
+.rcpt .hd{text-align:center;border-bottom:1px dashed #9ca3af;padding-bottom:10px;margin-bottom:8px}
+.rcpt .hd b{display:block;font-size:1rem;letter-spacing:.15em}.rcpt .hd span{font-size:.72rem;color:#6b7280}
+.li{display:flex;justify-content:space-between;gap:8px;padding:3px 0}.li span:first-child{flex:1;overflow:hidden}
+.li .z{color:#6b7280;font-size:.72rem}
+.grp{font-size:.7rem;color:#6b7280;margin-top:8px;letter-spacing:.08em}
+.hr{border-top:1px dashed #9ca3af;margin:8px 0}.hr2{border-top:3px double #374151;margin:8px 0}
+.li.sub{font-weight:700}.li.tot{font-size:1.05rem;font-weight:800;padding:4px 0}
+.ft{text-align:center;font-size:.7rem;color:#6b7280;margin-top:12px;line-height:1.6}
+.memo li{margin:5px 0;font-size:.88rem}.memo ul{margin:0;padding-left:1.1em}
 </style></head><body><main>
-<h1>日光 ドライブ日帰り 🚗🍁</h1>
-<div class="sub">万博記念公園（つくばみらい）発 ・ 日光一日自驾</div>
+<header class="hero">
+<div class="k">NIKKO · DAY DRIVE · 2026.11</div>
+<h1>日光 ドライブ日帰り 🍁</h1>
+<div class="s">万博記念公園（つくばみらい）10:30 発 · 日光一日自驾</div>
+<div class="stats"><div class="stat"><b>約150km</b><span>片道 单程</span></div><div class="stat"><b>約2h</b><span>高速 高速</span></div><div class="stat"><b>3案</b><span>A / B / C</span></div></div>
+</header>
 
-<div class="card"><h2>ルート 路线</h2>
-<div class="chips"><span class="chip">谷和原IC</span><span class="chip">常磐道</span><span class="chip">圏央道</span><span class="chip">東北道</span><span class="chip">日光宇都宮道路</span><span class="chip">日光IC</span></div>
-<div class="chips"><span class="chip">約150km</span><span class="chip">高速 <b>約2時間</b></span><span class="chip">下道 約3時間</span></div>
-<div class="mut">出発前に駐車：万博記念公園駅周辺コインP（自宅から直行なら不要）</div></div>
+<div class="card"><h2>ルート · 路线</h2>
+<div class="route"><span class="chip">谷和原IC</span><span class="arr">→</span><span class="chip">常磐道</span><span class="arr">→</span><span class="chip">圏央道</span><span class="arr">→</span><span class="chip">東北道</span><span class="arr">→</span><span class="chip">日光宇都宮道路</span><span class="arr">→</span><span class="chip">日光IC</span></div>
+<div class="note"><span class="warn">紅葉渋滞</span> 秋叶季山区易堵 · 下道（不走高速）約3h</div></div>
 
-<div class="tabs">
+<nav class="tabs">
 <button class="on" data-o="a">A 定番<small>东照宫</small></button>
 <button data-o="b">B 絶景<small>瀑布+湖</small></button>
-<button data-o="c">C 節約<small>不走高速</small></button></div>
+<button data-o="c">C 節約<small>不走高速</small></button></nav>
 
-<section class="opt on" id="a"><div class="card">
-<div class="row"><span class="t">10:30</span><p>出発 <small>高速で日光へ</small></p></div>
-<div class="row"><span class="t">12:30</span><p>日光着 → 昼食 <small>ゆば料理 1,500–2,500円</small></p></div>
-<div class="row"><span class="t">13:30</span><p>日光東照宮 <small>1,600円・受付15:30まで</small></p></div>
-<div class="row"><span class="t">15:00</span><p>二荒山神社 → 神橋 <small>無料・写真</small></p></div>
-<div class="row"><span class="t">16:00</span><p>揚げゆばまんじゅう・お土産</p></div>
-<div class="row"><span class="t">16:30</span><p>出発</p></div>
-<div class="row"><span class="t">18:45</span><p>帰着</p></div>
-<div class="row"><span class="t">P</span><p>東照宮周辺の有料P <small>600円〜/日</small></p></div>
-<div class="tot"><span>1台 + 1人あたり</span><b>¥16,000–19,000</b></div>
-</div></section>
+<!-- A -->
+<section class="opt on" id="a">
+<div class="card"><div class="sum"><div><div class="ttl">A 定番コース</div><div class="tag">世界遗产经典线</div></div><div class="back">帰着 回<b>18:45</b></div></div>
+<div class="spots"><span class="chip">東照宮</span><span class="chip">二荒山神社</span><span class="chip">神橋</span></div></div>
+<div class="card"><h2>タイムライン · 时间</h2><div class="tl">
+<div class="r"><span class="t">10:30</span><div class="x">出発<small>高速で日光へ</small></div></div>
+<div class="r"><span class="t">12:30</span><div class="x">日光着 → 昼食<small>ゆば料理 汤叶料理</small></div></div>
+<div class="r"><span class="t">13:30</span><div class="x">日光東照宮<small>受付 15:30 まで</small></div></div>
+<div class="r"><span class="t">15:00</span><div class="x">二荒山神社 → 神橋<small>神社免费 · 神桥外观拍照</small></div></div>
+<div class="r"><span class="t">16:00</span><div class="x">揚げゆばまんじゅう · お土産</div></div>
+<div class="r"><span class="t">16:30</span><div class="x">出発</div></div>
+<div class="r"><span class="t">18:45</span><div class="x">帰着</div></div></div></div>
+<div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN A · 定番 · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 · 1台分 —</div>
+<div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div>
+<div class="li"><span>ガソリン 油费 約300km</span><span>4,000</span></div>
+<div class="li"><span>駐車 東照宮周辺</span><span>600–1,000</span></div>
+<div class="hr"></div><div class="li sub"><span>小計</span><span>12,600–14,000</span></div>
+<div class="grp">— 1名分 —</div>
+<div class="li"><span>東照宮 拝観</span><span>1,600</span></div>
+<div class="li"><span>二荒山神社</span><span class="z">無料</span></div>
+<div class="li"><span>昼食 ゆば料理</span><span>1,500–2,500</span></div>
+<div class="li"><span>おやつ·土産</span><span>500–1,000</span></div>
+<div class="hr"></div><div class="li sub"><span>小計</span><span>3,600–5,100</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥16,000–19,000</span></div>
+<div class="ft">※ 目安 · 车费按人数平摊更便宜<br>THANK YOU · 気をつけて</div></div>
+</section>
 
-<section class="opt" id="b"><div class="card">
-<div class="row"><span class="t">10:30</span><p>出発</p></div>
-<div class="row"><span class="t">12:45</span><p>いろは坂 → 華厳の滝 <small>エレベーター 570円</small></p></div>
-<div class="row"><span class="t">13:30</span><p>中禅寺湖で昼食 <small>ニジマス・カフェ 1,500–2,500円</small></p></div>
-<div class="row"><span class="t">14:30</span><p>湖畔散歩 / 竜頭の滝 <small>無料</small></p></div>
-<div class="row"><span class="t">15:30</span><p>出発 <small>紅葉期は渋滞注意</small></p></div>
-<div class="row"><span class="t">18:30</span><p>帰着</p></div>
-<div class="row"><span class="t">P</span><p>華厳の滝 県営P <small>無料（混雑時は満車多い）</small></p></div>
-<div class="tot"><span>1台 + 1人あたり</span><b>¥14,000–17,000</b></div>
-</div></section>
+<!-- B -->
+<section class="opt" id="b">
+<div class="card"><div class="sum"><div><div class="ttl">B 絶景コース</div><div class="tag">奥日光 瀑布 + 湖</div></div><div class="back">帰着 回<b>18:30</b></div></div>
+<div class="spots"><span class="chip">いろは坂</span><span class="chip">華厳の滝</span><span class="chip">中禅寺湖</span><span class="chip">竜頭の滝</span></div></div>
+<div class="card"><h2>タイムライン · 时间</h2><div class="tl">
+<div class="r"><span class="t">10:30</span><div class="x">出発</div></div>
+<div class="r"><span class="t">12:45</span><div class="x">いろは坂 → 華厳の滝<small>观瀑台电梯</small></div></div>
+<div class="r"><span class="t">13:30</span><div class="x">中禅寺湖で昼食<small>ニジマス 虹鳟 · カフェ</small></div></div>
+<div class="r"><span class="t">14:30</span><div class="x">湖畔散歩 / 竜頭の滝<small>免费</small></div></div>
+<div class="r"><span class="t">15:30</span><div class="x">出発<small>紅葉期は渋滞注意</small></div></div>
+<div class="r"><span class="t">18:30</span><div class="x">帰着</div></div></div></div>
+<div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN B · 絶景 · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 · 1台分 —</div>
+<div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div>
+<div class="li"><span>ガソリン 山道込み</span><span>4,000–4,500</span></div>
+<div class="li"><span>駐車 華厳の滝 県営P</span><span class="z">無料</span></div>
+<div class="hr"></div><div class="li sub"><span>小計</span><span>12,000–13,500</span></div>
+<div class="grp">— 1名分 —</div>
+<div class="li"><span>華厳の滝 エレベーター</span><span>570</span></div>
+<div class="li"><span>昼食 中禅寺湖</span><span>1,500–2,500</span></div>
+<div class="li"><span>竜頭の滝</span><span class="z">無料</span></div>
+<div class="hr"></div><div class="li sub"><span>小計</span><span>2,070–3,070</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥14,000–17,000</span></div>
+<div class="ft">※ 目安 · 红叶季停车场常满<br>THANK YOU · 気をつけて</div></div>
+</section>
 
-<section class="opt" id="c"><div class="card">
-<div class="row"><span class="t">10:30</span><p>出発 <small>国道294号 → 宇都宮 → 国道119号</small></p></div>
-<div class="row"><span class="t">13:30</span><p>日光着 → 軽食 <small>ゆばまんじゅう等 500–1,000円</small></p></div>
-<div class="row"><span class="t">14:00</span><p>日光東照宮 <small>1,600円</small></p></div>
-<div class="row"><span class="t">15:15</span><p>神橋 → 出発</p></div>
-<div class="row"><span class="t">18:30</span><p>帰着</p></div>
-<div class="row"><span class="t">P</span><p>神橋周辺 / 市営P <small>500円前後</small></p></div>
-<div class="tot"><span>1台 + 1人あたり</span><b>¥7,500–9,500</b></div>
-</div></section>
+<!-- C -->
+<section class="opt" id="c">
+<div class="card"><div class="sum"><div><div class="ttl">C 節約コース</div><div class="tag">普通道路 · 不走高速</div></div><div class="back">帰着 回<b>18:30</b></div></div>
+<div class="spots"><span class="chip">東照宮</span><span class="chip">神橋</span></div></div>
+<div class="card"><h2>タイムライン · 时间</h2><div class="tl">
+<div class="r"><span class="t">10:30</span><div class="x">出発<small>国道294号 → 宇都宮 → 国道119号</small></div></div>
+<div class="r"><span class="t">13:30</span><div class="x">日光着 → 軽食<small>ゆばまんじゅう等</small></div></div>
+<div class="r"><span class="t">14:00</span><div class="x">日光東照宮<small>受付 15:30 まで</small></div></div>
+<div class="r"><span class="t">15:15</span><div class="x">神橋 → 出発</div></div>
+<div class="r"><span class="t">18:30</span><div class="x">帰着</div></div></div></div>
+<div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN C · 節約 · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 · 1台分 —</div>
+<div class="li"><span>高速</span><span class="z">0（下道）</span></div>
+<div class="li"><span>ガソリン 下道</span><span>4,500–5,500</span></div>
+<div class="li"><span>駐車 神橋周辺/市営P</span><span>500</span></div>
+<div class="hr"></div><div class="li sub"><span>小計</span><span>5,000–6,000</span></div>
+<div class="grp">— 1名分 —</div>
+<div class="li"><span>東照宮 拝観</span><span>1,600</span></div>
+<div class="li"><span>軽食 ゆばまんじゅう等</span><span>500–1,000</span></div>
+<div class="li"><span>土産</span><span>500–1,000</span></div>
+<div class="hr"></div><div class="li sub"><span>小計</span><span>2,600–3,600</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥7,500–9,500</span></div>
+<div class="ft">※ 目安 · 单程约3h，早出发更稳<br>THANK YOU · 気をつけて</div></div>
+</section>
 
-<div class="card"><h2>費用の目安 费用（往復）</h2>
-<div class="chips"><span class="chip">高速 ETC <b>約¥8,000–9,000</b></span><span class="chip">ガソリン <b>約¥4,000</b></span><span class="chip">駐車 <b>¥0–1,000</b></span><span class="chip">拝観 <b>¥1,600</b></span><span class="chip">食事 <b>¥1,500–3,000</b></span></div>
-<div class="mut">人数で割れば1人あたりかなり安くなる（交通費は1台分）</div></div>
-
-<div class="card"><h2>メモ</h2><ul>
-<li>11月の東照宮は 9:00–16:00（受付15:30）</li>
-<li>日光は東京より5–8℃寒い</li>
-<li>紅葉シーズンのいろは坂は大渋滞 → B は早めに</li>
-</ul><div class="mut" style="margin-top:8px">目安情報（2026/11確認）。料金・時間は変わることがあります。</div></div>
+<div class="card memo"><h2>メモ · 备注</h2><ul>
+<li>11月の東照宮 9:00–16:00（受付15:30）</li>
+<li>日光は東京より 5–8℃ 寒い · 带外套</li>
+<li>紅葉期のいろは坂は大渋滞 → B は早めに</li>
+</ul><div class="note">目安情報（2026/11 確認）· 料金・時間は変わることがあります</div></div>
 </main>
 <script>document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button,.opt').forEach(e=>e.classList.remove('on'));b.classList.add('on');document.getElementById(b.dataset.o).classList.add('on')})</script>
 </body></html>
