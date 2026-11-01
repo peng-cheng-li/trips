@@ -19,7 +19,7 @@ h2{font-size:.78rem;letter-spacing:.08em;color:var(--mut);margin:0 0 10px;font-w
 .note{font-size:.78rem;color:var(--mut);margin-top:10px}
 .warn{display:inline-block;background:#fff7ed;color:#9a3412;border-radius:8px;padding:2px 8px;font-size:.75rem;font-weight:600}
 .tabs{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:5px;margin:16px 0 12px;background:#e2e2dd;border-radius:16px}
-.tabs button{border:0;border-radius:12px;padding:9px 4px;background:transparent;font:inherit;font-weight:700;font-size:.92rem;color:#334155;cursor:pointer;transition:.15s}
+.tabs button{min-width:0;border:0;border-radius:12px;padding:9px 4px;background:transparent;font:inherit;font-weight:700;font-size:.82rem;color:#334155;cursor:pointer;transition:.15s}
 .tabs button small{display:block;font-weight:500;font-size:.68rem;color:var(--mut)}
 .tabs button.on{background:#fff;color:var(--a);box-shadow:0 2px 6px #0f172a1a}
 .opt{display:none}.opt.on{display:block;animation:f .2s}@keyframes f{from{opacity:0;transform:translateY(4px)}}
@@ -70,13 +70,16 @@ h2{font-size:.78rem;letter-spacing:.08em;color:var(--mut);margin:0 0 10px;font-w
 <div class="al"><i>🟢</i><div>交通規制なし<small>二荒橋前右折禁止实验仅10/31–11/1，11/3不实施 · 明智平P可用（ロープウェイ休止中）</small></div></div>
 <div class="src">出典：<a href="https://tenki.jp/forecast/3/12/4120/9206/1hour.html">tenki.jp</a> · <a href="https://weather.yahoo.co.jp/weather/jp/9/4120/9206.html">Yahoo!天気</a> · <a href="https://www.nikko-kankou.org/public/features/72">日光旅ナビ</a> · <a href="https://www.pref.tochigi.lg.jp/h05/documents/2026autumn_juutaigaiyouv2.pdf">栃木県</a> · <a href="https://nikkotrafficinfo.jp/">日光渋滞サイト（LIVEカメラ）</a> · <a href="https://www.driveplaza.com/">ドラとら</a>（11/2 朝時点）</div></div>
 
-<nav class="tabs">
-<button class="on" data-o="a">A 定番<small>东照宫</small></button>
-<button data-o="b">B 絶景<small>瀑布+湖</small></button>
-<button data-o="c">C 節約<small>不走高速</small></button></nav>
+<nav class="tabs" style="grid-template-columns:repeat(5,1fr)">
+<button class="on" data-o="b">B 絶景<small>瀑布+湖</small></button>
+<button data-o="d">D 高原<small>无寺社</small></button>
+<button data-o="e">E 温泉<small>美食</small></button>
+<button data-o="a">A 定番<small>⛩寺社</small></button>
+<button data-o="c">C 節約<small>⛩寺社</small></button></nav>
+<div class="note" style="margin:-4px 0 10px">不看寺社 → B / D / E</div>
 
 <!-- A -->
-<section class="opt on" id="a">
+<section class="opt" id="a">
 <div class="card"><div class="sum"><div><div class="ttl">A 定番コース</div><div class="tag">世界遗产经典线</div></div><div class="back">帰着 回<b>18:45</b></div></div>
 <div class="spots"><span class="chip">東照宮</span><span class="chip">二荒山神社</span><span class="chip">神橋</span></div></div>
 <div class="card"><h2>タイムライン · 时间</h2><div class="tl">
@@ -104,7 +107,7 @@ h2{font-size:.78rem;letter-spacing:.08em;color:var(--mut);margin:0 0 10px;font-w
 </section>
 
 <!-- B -->
-<section class="opt" id="b">
+<section class="opt on" id="b">
 <div class="card"><div class="sum"><div><div class="ttl">B 絶景コース</div><div class="tag">奥日光 瀑布 + 湖</div></div><div class="back">帰着 回<b>18:30</b></div></div>
 <div class="spots"><span class="chip">いろは坂</span><span class="chip">華厳の滝</span><span class="chip">中禅寺湖</span><span class="chip">竜頭の滝</span></div></div>
 <div class="card"><h2>タイムライン · 时间</h2><div class="tl">
@@ -129,6 +132,18 @@ h2{font-size:.78rem;letter-spacing:.08em;color:var(--mut);margin:0 0 10px;font-w
 <div class="ft">※ 目安 · 红叶季停车场常满<br>THANK YOU · 気をつけて</div></div>
 </section>
 
+<section class="opt" id="d">
+<div class="card"><div class="sum"><div><div class="ttl">D 高原ドライブ</div><div class="tag">霧降高原 · 无寺社 · 少堵</div></div><div class="back">帰着 回<b>18:15</b></div></div><div class="spots"><span class="chip">霧降の滝</span><span class="chip">霧降高原</span><span class="chip">六方沢橋</span><span class="chip">大笹牧場</span></div></div>
+<div class="card"><h2>タイムライン · 时间</h2><div class="tl"><div class="r"><span class="t">10:30</span><div class="x">出発<small>高速で日光ICへ</small></div></div><div class="r"><span class="t">12:30</span><div class="x">霧降の滝<small>观瀑台 徒步10分 · 免费</small></div></div><div class="r"><span class="t">13:15</span><div class="x">霧降高原 キスゲ平<small>展望 · 散步</small></div></div><div class="r"><span class="t">14:00</span><div class="x">六方沢橋 → 大笹牧場<small>昼食 ジンギスカン·ソフト</small></div></div><div class="r"><span class="t">15:30</span><div class="x">出発<small>避开いろは坂</small></div></div><div class="r"><span class="t">18:15</span><div class="x">帰着<small></small></div></div></div></div><div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN D · 高原 · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 · 1台分 —</div><div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div><div class="li"><span>ガソリン 油费</span><span>4,000</span></div><div class="li"><span>駐車 霧降·牧場</span><span><span class='z'>無料</span></span></div><div class="hr"></div><div class="li sub"><span>小計</span><span>12,000–13,000</span></div>
+<div class="grp">— 1名分 —</div><div class="li"><span>昼食 大笹牧場</span><span>1,500–2,500</span></div><div class="li"><span>ソフトクリーム</span><span>400–500</span></div><div class="hr"></div><div class="li sub"><span>小計</span><span>1,900–3,000</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥14,000–16,000</span></div><div class="ft">※ 目安 · 红叶季霧降也有人，但比いろは坂空<br>THANK YOU · 気をつけて</div></div></section>
+<section class="opt" id="e">
+<div class="card"><div class="sum"><div><div class="ttl">E 温泉·グルメ</div><div class="tag">鬼怒川 · 泡汤吃饭</div></div><div class="back">帰着 回<b>18:30</b></div></div><div class="spots"><span class="chip">鬼怒楯岩大吊橋</span><span class="chip">日帰り温泉</span><span class="chip">今市 ゆば·そば</span></div></div>
+<div class="card"><h2>タイムライン · 时间</h2><div class="tl"><div class="r"><span class="t">10:30</span><div class="x">出発<small>高速で今市ICへ</small></div></div><div class="r"><span class="t">12:30</span><div class="x">今市で昼食<small>ゆば料理 / 日光そば</small></div></div><div class="r"><span class="t">13:30</span><div class="x">鬼怒川温泉 鬼怒楯岩大吊橋<small>吊桥散步 · 免费</small></div></div><div class="r"><span class="t">14:15</span><div class="x">日帰り温泉<small>泡汤约1.5h</small></div></div><div class="r"><span class="t">16:00</span><div class="x">出発<small></small></div></div><div class="r"><span class="t">18:30</span><div class="x">帰着<small></small></div></div></div></div><div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN E · 温泉 · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 · 1台分 —</div><div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div><div class="li"><span>ガソリン 油费</span><span>4,000</span></div><div class="li"><span>駐車 鬼怒川周辺</span><span>0–500</span></div><div class="hr"></div><div class="li sub"><span>小計</span><span>12,000–13,500</span></div>
+<div class="grp">— 1名分 —</div><div class="li"><span>昼食</span><span>1,500–2,500</span></div><div class="li"><span>日帰り温泉</span><span>1,000–1,500</span></div><div class="hr"></div><div class="li sub"><span>小計</span><span>2,500–4,000</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥14,500–17,500</span></div><div class="ft">※ 目安 · 温泉费用各馆不同，出发前确认<br>THANK YOU · 気をつけて</div></div></section>
 <!-- C -->
 <section class="opt" id="c">
 <div class="card"><div class="sum"><div><div class="ttl">C 節約コース</div><div class="tag">普通道路 · 不走高速</div></div><div class="back">帰着 回<b>18:30</b></div></div>
