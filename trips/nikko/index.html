@@ -1,4 +1,5 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f172a"><title>日光 ドライブ日帰り</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 :root{--bg:#f4f4f1;--ink:#0f172a;--mut:#64748b;--line:#e5e7eb;--a:#ea580c;--a2:#16a34a;--card:#fff}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
@@ -50,134 +51,48 @@ h2{font-size:.78rem;letter-spacing:.08em;color:var(--mut);margin:0 0 10px;font-w
 .al{display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:.84rem}.al:first-of-type{border:0}.al i{font-style:normal;flex:none}.al small{display:block;color:var(--mut);font-size:.74rem}
 .src{font-size:.7rem;color:var(--mut);margin-top:8px}.src a{color:var(--mut)}
 #map{height:340px;border-radius:14px;margin-top:8px;z-index:0}.lg{display:flex;gap:10px;font-size:.72rem;color:var(--mut);margin-top:6px}.lg i{display:inline-block;width:14px;height:3px;background:#dc2626;vertical-align:middle;margin-right:4px}
-</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script></head><body><main>
-<header class="hero">
-<div class="k">NIKKO · DAY DRIVE · 2026.11</div>
-<h1>日光 ドライブ日帰り 🍁</h1>
-<div class="s">万博記念公園（つくばみらい）10:30 発 · 日光一日自驾</div>
-<div class="stats"><div class="stat"><b>約150km</b><span>片道 单程</span></div><div class="stat"><b>約2h</b><span>高速 高速</span></div><div class="stat"><b>3案</b><span>A / B / C</span></div></div>
-</header>
+details.src{margin-top:4px}details.src summary{cursor:pointer;font-size:.75rem;color:var(--mut)}details.src li{font-size:.72rem;margin:2px 0}details.src a{color:var(--mut);word-break:break-all}
+.tabs button{padding:8px 2px}@media(max-width:380px){.tabs button{font-size:.74rem}.tabs button small{font-size:.6rem}}</style></head><body><main>
+<header class="hero"><div class="k">NIKKO · DAY DRIVE · 11/3</div><h1>日光 ドライブ日帰り 🍁</h1>
+<div class="s">万博記念公園 10:30 発</div>
+<div class="stats"><div class="stat"><b>約150km</b><span>片道</span></div><div class="stat"><b>約2h</b><span>高速</span></div><div class="stat"><b>5案</b><span>B·D·E 无寺社</span></div></div></header>
 
-<div class="card"><h2>ルート · 路线</h2>
-<div class="route"><span class="chip">谷和原IC</span><span class="arr">→</span><span class="chip">常磐道</span><span class="arr">→</span><span class="chip">圏央道</span><span class="arr">→</span><span class="chip">東北道</span><span class="arr">→</span><span class="chip">日光宇都宮道路</span><span class="arr">→</span><span class="chip">日光IC</span></div>
-<div class="note"><span class="warn">紅葉渋滞</span> 秋叶季山区易堵 · 下道（不走高速）約3h</div></div>
+<div class="card"><h2>11/3 祝 · 天気·交通</h2>
+<div class="wx"><div><b>☀→☁</b>晴のち曇</div><div><b>15/8℃</b>日光市</div><div><b>40–60%</b>午後雨</div><div><b>~3m/s</b>風</div></div>
+<div class="al"><i>🔴</i><div>いろは坂 渋滞 最大3h+<small>9–15時 · 祝日は7時前が◎</small></div></div>
+<div class="al"><i>🟠</i><div>東照宮周辺 P混雑<small>臨時P 開設（大谷川河川敷等）</small></div></div>
+<div class="al"><i>🟢</i><div>交通規制なし · 休日割引あり<small>右折禁止実験は10/31–11/1のみ</small></div></div></div>
 
-<div class="card"><h2>11/3（火·祝 文化の日）天気·交通 · 当天天气路况</h2>
-<div class="wx"><div><b>☀→☁</b>晴のち曇</div><div><b>15/8℃</b>最高/最低</div><div><b>40–60%</b>午後降水</div><div><b>1–3m/s</b>風 弱</div></div>
-<div class="note" style="margin:0 0 8px">日光市：午前晴、昼過ぎ一時小雨の可能性（0.1mm/h程度）→ 折りたたみ傘。奥日光は更冷，带外套。</div>
-<div class="al"><i>🔴</i><div>いろは坂·中禅寺湖 渋滞大<small>红叶季土日祝 9–15時（至17時）拥堵，最长3h以上 · 祝日は7時前に上るのが◎ → B案注意</small></div></div>
-<div class="al"><i>🟠</i><div>二社一寺·東照宮周辺 駐車混雑<small>当日开设临时停车场（大谷川河川敷等）· 早到为上</small></div></div>
-<div class="al"><i>🟠</i><div>高速 帰り上り渋滞の可能性<small>祝日傍晚回程上り易堵（目安，无官方数值）· 出发前看ドラとら</small></div></div>
-<div class="al"><i>🟢</i><div>交通規制なし<small>二荒橋前右折禁止实验仅10/31–11/1，11/3不实施 · 明智平P可用（ロープウェイ休止中）</small></div></div>
-<div class="src">出典：<a href="https://tenki.jp/forecast/3/12/4120/9206/1hour.html">tenki.jp</a> · <a href="https://weather.yahoo.co.jp/weather/jp/9/4120/9206.html">Yahoo!天気</a> · <a href="https://www.nikko-kankou.org/public/features/72">日光旅ナビ</a> · <a href="https://www.pref.tochigi.lg.jp/h05/documents/2026autumn_juutaigaiyouv2.pdf">栃木県</a> · <a href="https://nikkotrafficinfo.jp/">日光渋滞サイト（LIVEカメラ）</a> · <a href="https://www.driveplaza.com/">ドラとら</a>（11/2 朝時点）</div></div>
+<div class="card"><h2>ルート · 路线 <span id="mapt" style="color:var(--a)"></span></h2>
+<div class="route"><span class="chip">谷和原IC</span><span class="arr">→</span><span class="chip">常磐道</span><span class="arr">→</span><span class="chip">圏央道</span><span class="arr">→</span><span class="chip">東北道</span><span class="arr">→</span><span class="chip">日光宇都宮道路</span></div>
+<div id="map"></div><div class="lg"><span><i></i>ルート</span><span>🟠 出発</span><span>🔴 スポット</span><span>🔵 P</span></div></div>
 
-<div class="card"><h2>マップ · 路线地图 <span id="mapt" style="color:var(--a)"></span></h2><div id="map"></div>
-<div class="lg"><span><i></i>往復ルート</span><span>🟠 出発</span><span>🔴 スポット</span><span>🔵 P 駐車</span></div>
-<div class="note">道路形状：OSRM（OpenStreetMap）· 時間は渋滞なしの参考値 · 地図 © OpenStreetMap</div></div>
 <nav class="tabs" style="grid-template-columns:repeat(5,1fr)">
-<button class="on" data-o="b">B 絶景<small>瀑布+湖</small></button>
-<button data-o="d">D 高原<small>无寺社</small></button>
-<button data-o="e">E 温泉<small>美食</small></button>
-<button data-o="a">A 定番<small>⛩寺社</small></button>
-<button data-o="c">C 節約<small>⛩寺社</small></button></nav>
-<div class="note" style="margin:-4px 0 10px">不看寺社 → B / D / E</div>
-
-<!-- A -->
-<section class="opt" id="a">
-<div class="card"><div class="sum"><div><div class="ttl">A 定番コース</div><div class="tag">世界遗产经典线</div></div><div class="back">帰着 回<b>18:45</b></div></div>
-<div class="spots"><span class="chip">東照宮</span><span class="chip">二荒山神社</span><span class="chip">神橋</span></div></div>
-<div class="card"><h2>タイムライン · 时间</h2><div class="tl">
-<div class="r"><span class="t">10:30</span><div class="x">出発<small>高速で日光へ</small></div></div>
-<div class="r"><span class="t">12:30</span><div class="x">日光着 → 昼食<small>ゆば料理 汤叶料理</small></div></div>
-<div class="r"><span class="t">13:30</span><div class="x">日光東照宮<small>受付 15:30 まで</small></div></div>
-<div class="r"><span class="t">15:00</span><div class="x">二荒山神社 → 神橋<small>神社免费 · 神桥外观拍照</small></div></div>
-<div class="r"><span class="t">16:00</span><div class="x">揚げゆばまんじゅう · お土産</div></div>
-<div class="r"><span class="t">16:30</span><div class="x">出発</div></div>
-<div class="r"><span class="t">18:45</span><div class="x">帰着</div></div></div></div>
-<div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN A · 定番 · 1台+1名 · 目安</span></div>
-<div class="grp">— 車 · 1台分 —</div>
-<div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div>
-<div class="li"><span>ガソリン 油费 約300km</span><span>4,000</span></div>
-<div class="li"><span>駐車 東照宮周辺</span><span>600–1,000</span></div>
-<div class="hr"></div><div class="li sub"><span>小計</span><span>12,600–14,000</span></div>
-<div class="grp">— 1名分 —</div>
-<div class="li"><span>東照宮 拝観</span><span>1,600</span></div>
-<div class="li"><span>二荒山神社</span><span class="z">無料</span></div>
-<div class="li"><span>昼食 ゆば料理</span><span>1,500–2,500</span></div>
-<div class="li"><span>おやつ·土産</span><span>500–1,000</span></div>
-<div class="hr"></div><div class="li sub"><span>小計</span><span>3,600–5,100</span></div>
-<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥16,000–19,000</span></div>
-<div class="ft">※ 目安 · 车费按人数平摊更便宜<br>THANK YOU · 気をつけて</div></div>
-</section>
-
-<!-- B -->
-<section class="opt on" id="b">
-<div class="card"><div class="sum"><div><div class="ttl">B 絶景コース</div><div class="tag">奥日光 瀑布 + 湖</div></div><div class="back">帰着 回<b>18:30</b></div></div>
-<div class="spots"><span class="chip">いろは坂</span><span class="chip">華厳の滝</span><span class="chip">中禅寺湖</span><span class="chip">竜頭の滝</span></div></div>
-<div class="card"><h2>タイムライン · 时间</h2><div class="tl">
-<div class="r"><span class="t">10:30</span><div class="x">出発</div></div>
-<div class="r"><span class="t">12:45</span><div class="x">いろは坂 → 華厳の滝<small>观瀑台电梯</small></div></div>
-<div class="r"><span class="t">13:30</span><div class="x">中禅寺湖で昼食<small>ニジマス 虹鳟 · カフェ</small></div></div>
-<div class="r"><span class="t">14:30</span><div class="x">湖畔散歩 / 竜頭の滝<small>免费</small></div></div>
-<div class="r"><span class="t">15:30</span><div class="x">出発<small>紅葉期は渋滞注意</small></div></div>
-<div class="r"><span class="t">18:30</span><div class="x">帰着</div></div></div></div>
-<div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN B · 絶景 · 1台+1名 · 目安</span></div>
-<div class="grp">— 車 · 1台分 —</div>
-<div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div>
-<div class="li"><span>ガソリン 山道込み</span><span>4,000–4,500</span></div>
-<div class="li"><span>駐車 華厳の滝 県営P</span><span class="z">無料</span></div>
-<div class="hr"></div><div class="li sub"><span>小計</span><span>12,000–13,500</span></div>
-<div class="grp">— 1名分 —</div>
-<div class="li"><span>華厳の滝 エレベーター</span><span>570</span></div>
-<div class="li"><span>昼食 中禅寺湖</span><span>1,500–2,500</span></div>
-<div class="li"><span>竜頭の滝</span><span class="z">無料</span></div>
-<div class="hr"></div><div class="li sub"><span>小計</span><span>2,070–3,070</span></div>
-<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥14,000–17,000</span></div>
-<div class="ft">※ 目安 · 红叶季停车场常满<br>THANK YOU · 気をつけて</div></div>
-</section>
-
-<section class="opt" id="d">
-<div class="card"><div class="sum"><div><div class="ttl">D 高原ドライブ</div><div class="tag">霧降高原 · 无寺社 · 少堵</div></div><div class="back">帰着 回<b>18:15</b></div></div><div class="spots"><span class="chip">霧降の滝</span><span class="chip">霧降高原</span><span class="chip">六方沢橋</span><span class="chip">大笹牧場</span></div></div>
-<div class="card"><h2>タイムライン · 时间</h2><div class="tl"><div class="r"><span class="t">10:30</span><div class="x">出発<small>高速で日光ICへ</small></div></div><div class="r"><span class="t">12:30</span><div class="x">霧降の滝<small>观瀑台 徒步10分 · 免费</small></div></div><div class="r"><span class="t">13:15</span><div class="x">霧降高原 キスゲ平<small>展望 · 散步</small></div></div><div class="r"><span class="t">14:00</span><div class="x">六方沢橋 → 大笹牧場<small>昼食 ジンギスカン·ソフト</small></div></div><div class="r"><span class="t">15:30</span><div class="x">出発<small>避开いろは坂</small></div></div><div class="r"><span class="t">18:15</span><div class="x">帰着<small></small></div></div></div></div><div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN D · 高原 · 1台+1名 · 目安</span></div>
-<div class="grp">— 車 · 1台分 —</div><div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div><div class="li"><span>ガソリン 油费</span><span>4,000</span></div><div class="li"><span>駐車 霧降·牧場</span><span><span class='z'>無料</span></span></div><div class="hr"></div><div class="li sub"><span>小計</span><span>12,000–13,000</span></div>
-<div class="grp">— 1名分 —</div><div class="li"><span>昼食 大笹牧場</span><span>1,500–2,500</span></div><div class="li"><span>ソフトクリーム</span><span>400–500</span></div><div class="hr"></div><div class="li sub"><span>小計</span><span>1,900–3,000</span></div>
-<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥14,000–16,000</span></div><div class="ft">※ 目安 · 红叶季霧降也有人，但比いろは坂空<br>THANK YOU · 気をつけて</div></div></section>
-<section class="opt" id="e">
-<div class="card"><div class="sum"><div><div class="ttl">E 温泉·グルメ</div><div class="tag">鬼怒川 · 泡汤吃饭</div></div><div class="back">帰着 回<b>18:30</b></div></div><div class="spots"><span class="chip">鬼怒楯岩大吊橋</span><span class="chip">日帰り温泉</span><span class="chip">今市 ゆば·そば</span></div></div>
-<div class="card"><h2>タイムライン · 时间</h2><div class="tl"><div class="r"><span class="t">10:30</span><div class="x">出発<small>高速で今市ICへ</small></div></div><div class="r"><span class="t">12:30</span><div class="x">今市で昼食<small>ゆば料理 / 日光そば</small></div></div><div class="r"><span class="t">13:30</span><div class="x">鬼怒川温泉 鬼怒楯岩大吊橋<small>吊桥散步 · 免费</small></div></div><div class="r"><span class="t">14:15</span><div class="x">日帰り温泉<small>泡汤约1.5h</small></div></div><div class="r"><span class="t">16:00</span><div class="x">出発<small></small></div></div><div class="r"><span class="t">18:30</span><div class="x">帰着<small></small></div></div></div></div><div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN E · 温泉 · 1台+1名 · 目安</span></div>
-<div class="grp">— 車 · 1台分 —</div><div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div><div class="li"><span>ガソリン 油费</span><span>4,000</span></div><div class="li"><span>駐車 鬼怒川周辺</span><span>0–500</span></div><div class="hr"></div><div class="li sub"><span>小計</span><span>12,000–13,500</span></div>
-<div class="grp">— 1名分 —</div><div class="li"><span>昼食</span><span>1,500–2,500</span></div><div class="li"><span>日帰り温泉</span><span>1,000–1,500</span></div><div class="hr"></div><div class="li sub"><span>小計</span><span>2,500–4,000</span></div>
-<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥14,500–17,500</span></div><div class="ft">※ 目安 · 温泉费用各馆不同，出发前确认<br>THANK YOU · 気をつけて</div></div></section>
-<!-- C -->
-<section class="opt" id="c">
-<div class="card"><div class="sum"><div><div class="ttl">C 節約コース</div><div class="tag">普通道路 · 不走高速</div></div><div class="back">帰着 回<b>18:30</b></div></div>
-<div class="spots"><span class="chip">東照宮</span><span class="chip">神橋</span></div></div>
-<div class="card"><h2>タイムライン · 时间</h2><div class="tl">
-<div class="r"><span class="t">10:30</span><div class="x">出発<small>国道294号 → 宇都宮 → 国道119号</small></div></div>
-<div class="r"><span class="t">13:30</span><div class="x">日光着 → 軽食<small>ゆばまんじゅう等</small></div></div>
-<div class="r"><span class="t">14:00</span><div class="x">日光東照宮<small>受付 15:30 まで</small></div></div>
-<div class="r"><span class="t">15:15</span><div class="x">神橋 → 出発</div></div>
-<div class="r"><span class="t">18:30</span><div class="x">帰着</div></div></div></div>
-<div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN C · 節約 · 1台+1名 · 目安</span></div>
-<div class="grp">— 車 · 1台分 —</div>
-<div class="li"><span>高速</span><span class="z">0（下道）</span></div>
-<div class="li"><span>ガソリン 下道</span><span>4,500–5,500</span></div>
-<div class="li"><span>駐車 神橋周辺/市営P</span><span>500</span></div>
-<div class="hr"></div><div class="li sub"><span>小計</span><span>5,000–6,000</span></div>
-<div class="grp">— 1名分 —</div>
-<div class="li"><span>東照宮 拝観</span><span>1,600</span></div>
-<div class="li"><span>軽食 ゆばまんじゅう等</span><span>500–1,000</span></div>
-<div class="li"><span>土産</span><span>500–1,000</span></div>
-<div class="hr"></div><div class="li sub"><span>小計</span><span>2,600–3,600</span></div>
-<div class="hr2"></div><div class="li tot"><span>合計 TOTAL</span><span>¥7,500–9,500</span></div>
-<div class="ft">※ 目安 · 单程约3h，早出发更稳<br>THANK YOU · 気をつけて</div></div>
-</section>
-
-<div class="card memo"><h2>メモ · 备注</h2><ul>
-<li>11月の東照宮 9:00–16:00（受付15:30）</li>
-<li>日光は東京より 5–8℃ 寒い · 带外套</li>
-<li>紅葉期のいろは坂は大渋滞 → B は早めに</li>
-</ul><div class="note">目安情報（2026/11 確認）· 料金・時間は変わることがあります</div></div>
+<button class="on" data-o="b">B 絶景<small>瀑布+湖</small></button><button data-o="d">D 高原<small>牧場</small></button><button data-o="e">E 温泉<small>鬼怒川</small></button><button data-o="a">A 定番<small>⛩寺社</small></button><button data-o="c">C 節約<small>⛩下道</small></button></nav>
+<section class="opt on" id="b"><div class="card"><div class="sum"><div><div class="ttl">B 絶景</div><div class="tag">瀑布+湖 · 无寺社</div></div><div class="back">帰着<b>18:30</b></div></div>
+<div class="tl" style="margin-top:8px"><div class="r"><span class="t">10:30</span><div class="x">出発</div></div><div class="r"><span class="t">12:45</span><div class="x">華厳の滝<small>エレベーター ¥600</small></div></div><div class="r"><span class="t">13:30</span><div class="x">中禅寺湖 昼食</div></div><div class="r"><span class="t">14:30</span><div class="x">竜頭の滝<small>無料</small></div></div><div class="r"><span class="t">15:30</span><div class="x">出発<small>いろは坂 渋滞注意</small></div></div><div class="r"><span class="t">18:30</span><div class="x">帰着</div></div></div></div><div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN B · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 1台 —</div><div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div><div class="li"><span>ガソリン</span><span>約4,000</span></div><div class="li"><span>駐車 華厳 県営P</span><span>500</span></div><div class="grp">— 1名 —</div><div class="li"><span>華厳 エレベーター</span><span>600</span></div><div class="li"><span>昼食</span><span>1,500–2,500</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計</span><span>¥14,500–17,000</span></div><div class="ft">※ 目安 · 车费可按人数平摊</div></div></section><section class="opt" id="d"><div class="card"><div class="sum"><div><div class="ttl">D 高原</div><div class="tag">霧降 · 无寺社 · 避开いろは坂</div></div><div class="back">帰着<b>18:15</b></div></div>
+<div class="tl" style="margin-top:8px"><div class="r"><span class="t">10:30</span><div class="x">出発</div></div><div class="r"><span class="t">12:30</span><div class="x">霧降の滝<small>観瀑台 徒歩約10分</small></div></div><div class="r"><span class="t">13:15</span><div class="x">霧降高原 キスゲ平<small>P ¥1,000（11月）</small></div></div><div class="r"><span class="t">14:00</span><div class="x">大笹牧場 昼食<small>入場·P 無料</small></div></div><div class="r"><span class="t">15:30</span><div class="x">出発</div></div><div class="r"><span class="t">18:15</span><div class="x">帰着</div></div></div></div><div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN D · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 1台 —</div><div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div><div class="li"><span>ガソリン</span><span>約4,000</span></div><div class="li"><span>駐車 キスゲ平</span><span>1,000</span></div><div class="grp">— 1名 —</div><div class="li"><span>昼食 大笹牧場</span><span>1,500–2,500</span></div><div class="li"><span>ソフト等</span><span>400–500</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計</span><span>¥15,000–17,000</span></div><div class="ft">※ 目安 · 车费可按人数平摊</div></div></section><section class="opt" id="e"><div class="card"><div class="sum"><div><div class="ttl">E 温泉</div><div class="tag">鬼怒川 · 美食</div></div><div class="back">帰着<b>18:30</b></div></div>
+<div class="tl" style="margin-top:8px"><div class="r"><span class="t">10:30</span><div class="x">出発<small>今市ICへ</small></div></div><div class="r"><span class="t">12:30</span><div class="x">今市 昼食<small>ゆば / そば</small></div></div><div class="r"><span class="t">13:30</span><div class="x">鬼怒楯岩大吊橋<small>無料 · P無料26台</small></div></div><div class="r"><span class="t">14:15</span><div class="x">日帰り温泉<small>施設により ¥700–1,650</small></div></div><div class="r"><span class="t">16:00</span><div class="x">出発</div></div><div class="r"><span class="t">18:30</span><div class="x">帰着</div></div></div></div><div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN E · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 1台 —</div><div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div><div class="li"><span>ガソリン</span><span>約4,000</span></div><div class="li"><span>駐車</span><span>0–500</span></div><div class="grp">— 1名 —</div><div class="li"><span>昼食</span><span>1,500–2,500</span></div><div class="li"><span>日帰り温泉</span><span>700–1,650</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計</span><span>¥14,500–18,000</span></div><div class="ft">※ 目安 · 车费可按人数平摊</div></div></section><section class="opt" id="a"><div class="card"><div class="sum"><div><div class="ttl">A 定番 ⛩</div><div class="tag">世界遺産</div></div><div class="back">帰着<b>18:45</b></div></div>
+<div class="tl" style="margin-top:8px"><div class="r"><span class="t">10:30</span><div class="x">出発</div></div><div class="r"><span class="t">12:30</span><div class="x">昼食<small>ゆば料理</small></div></div><div class="r"><span class="t">13:30</span><div class="x">日光東照宮<small>¥1,600 · 受付15:30まで</small></div></div><div class="r"><span class="t">15:00</span><div class="x">二荒山神社 → 神橋</div></div><div class="r"><span class="t">16:30</span><div class="x">出発</div></div><div class="r"><span class="t">18:45</span><div class="x">帰着</div></div></div></div><div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN A · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 1台 —</div><div class="li"><span>高速 ETC 往復</span><span>8,000–9,000</span></div><div class="li"><span>ガソリン</span><span>約4,000</span></div><div class="li"><span>駐車 東照宮P</span><span>600</span></div><div class="grp">— 1名 —</div><div class="li"><span>東照宮</span><span>1,600</span></div><div class="li"><span>昼食</span><span>1,500–2,500</span></div><div class="li"><span>おやつ</span><span>500–1,000</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計</span><span>¥16,000–19,000</span></div><div class="ft">※ 目安 · 车费可按人数平摊</div></div></section><section class="opt" id="c"><div class="card"><div class="sum"><div><div class="ttl">C 節約 ⛩</div><div class="tag">下道 · 不走高速</div></div><div class="back">帰着<b>18:30</b></div></div>
+<div class="tl" style="margin-top:8px"><div class="r"><span class="t">10:30</span><div class="x">出発<small>国道294 → 宇都宮 → 国道119</small></div></div><div class="r"><span class="t">13:30</span><div class="x">日光着 軽食</div></div><div class="r"><span class="t">14:00</span><div class="x">日光東照宮<small>¥1,600</small></div></div><div class="r"><span class="t">15:15</span><div class="x">神橋 → 出発</div></div><div class="r"><span class="t">18:30</span><div class="x">帰着</div></div></div></div><div class="rcpt"><div class="hd"><b>領 収 書</b><span>PLAN C · 1台+1名 · 目安</span></div>
+<div class="grp">— 車 1台 —</div><div class="li"><span>高速</span><span>0</span></div><div class="li"><span>ガソリン</span><span>約4,500–5,500</span></div><div class="li"><span>駐車</span><span>500</span></div><div class="grp">— 1名 —</div><div class="li"><span>東照宮</span><span>1,600</span></div><div class="li"><span>軽食·土産</span><span>1,000–2,000</span></div>
+<div class="hr2"></div><div class="li tot"><span>合計</span><span>¥7,500–9,500</span></div><div class="ft">※ 目安 · 车费可按人数平摊</div></div></section>
+<div class="card memo"><h2>メモ</h2><ul>
+<li>日光は東京より寒い · 上着</li><li>B は早出 or いろは坂回避なら D/E</li><li>出発前に 日光渋滞サイト · ドラとら</li></ul>
+<details class="src"><summary>出典 · 来源（11/2 確認）</summary><ul>
+<li><a href="https://toshogu.jp/pages/25/">東照宮 公式</a> · <a href="https://www.kegon.jp/info/">華厳滝エレベーター</a> · <a href="https://www.kegon.jp/access/">華厳P</a></li>
+<li><a href="http://kirifuri-kogen.jp/access.html">キスゲ平</a> · <a href="https://www.nikko-ozasa.jp/">大笹牧場</a> · <a href="https://www.nikko-kankou.org/spot/41">鬼怒楯岩大吊橋</a></li>
+<li><a href="https://tenki.jp/forecast/3/12/4120/9206/1hour.html">tenki.jp</a> · <a href="https://weather.yahoo.co.jp/weather/jp/9/4120/9206.html">Yahoo!天気</a></li>
+<li><a href="https://www.nikko-kankou.org/public/features/72">日光旅ナビ 渋滞</a> · <a href="https://www.pref.tochigi.lg.jp/h05/documents/2026autumn_juutaigaiyouv2.pdf">栃木県</a> · <a href="https://nikkotrafficinfo.jp/">日光渋滞サイト</a> · <a href="https://www.driveplaza.com/">ドラぷら</a></li>
+<li>高速料金·ガソリン（15km/L·¥170/L想定）·食事·温泉は目安 · 地図 OSRM/© OpenStreetMap</li></ul></details></div>
 </main>
 <script>document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button,.opt').forEach(e=>e.classList.remove('on'));b.classList.add('on');document.getElementById(b.dataset.o).classList.add('on')})</script>
 <script>
