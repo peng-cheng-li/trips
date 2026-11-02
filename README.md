@@ -13,7 +13,7 @@ build/                  generated deploy scripts (git-ignored)
 | Trip | Folder | Live |
 |---|---|---|
 | 日光 ドライブ日帰り | `trips/nikko` | https://nikko-daytrip.logipab.workers.dev/ |
-| タイ バンコク＋パタヤ 2026.11 | `trips/thailand` | https://thailand-trip.logipab.workers.dev/ |
+| タイ バンコク＋パタヤ 2026.11（編集可・KV） | `trips/thailand` | https://thailand-trip.logipab.workers.dev/ |
 
 ## Add a new trip
 1. Folder name: `trips/<place>` or `trips/<place>-<yyyymm>` (lowercase ASCII, e.g. `trips/kyoto-202612`).
