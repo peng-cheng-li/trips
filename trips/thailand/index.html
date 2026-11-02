@@ -48,6 +48,7 @@ nav button{border:0;background:none;padding:7px 12px;border-radius:999px;font-si
 .w{bottom:0}.s{padding-bottom:calc(var(--bar) + 6px)}
 .toast{bottom:calc(var(--bar) + 10px)}
 .cr{font-size:.7rem;color:#ffffff80;margin-top:auto;padding-top:12px}.cr a{color:inherit}
+.ov p{margin:5px 0}.ov p small{display:block}.ov h2{margin-top:16px}.bx{padding:12px 14px;border-radius:16px;background:#ffffff12;border:1px solid #ffffff22;margin-bottom:4px}.bx .big{font-size:1.75rem}.bx .big small{font-size:1rem;color:var(--mut)}.pp{color:var(--a);font-weight:800;font-size:1.05rem}.ov .btn{margin-top:10px;padding:12px}.ov .b{padding:5px 0;font-size:.92rem}.ov .ttl small{font-size:1rem;color:var(--mut)}
 </style></head><body>
 <header class="glass"><div class="hd"><div class="k">THAILAND · 11.22–28 · Hiro・Fujisaki・Li</div><button class="eb" id="eb" aria-label="編集">✎</button></div><nav id="nav"></nav><div class="dots" id="dots"></div></header>
 <div class="w" id="w"></div>
@@ -60,12 +61,7 @@ const yen=b=>'¥'+(Math.round(b*P.rate/100)*100).toLocaleString(),th=b=>'฿'+Nu
 const map=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
 const M='Metropole Bangkok Tribute Portfolio Hotel',WAL='<a class="btn" href="https://walica.jp/group/01M6DMSTVSD5AKZDK68FS8JGV6" target="_blank">割り勘（walica）</a>';
 function toast(m,err){const t=$('#toast');t.textContent=m;t.className='toast glass'+(err?' err':'');t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2600)}
-function render(){const keep=W.scrollLeft;let h=`<section class="s"><div class="in glass"><h2>概要</h2><div class="ttl">バンコク＋パタヤ</div>
-<p>Hiro・Fujisaki・Li<br>11/22 NRT 18:30 → BKK 23:55<br>11/28 DMK 23:55 → NRT 08:00</p>
-<p><span class="tag">TDAC</span> <a class="x" href="https://tdac.immigration.go.th" target="_blank">入国カード登録</a> 到着3日前から・1人1件</p>
-<h2>ホテル</h2><p>パタヤ（11/24–26）：<a class="x" href="${map('March Hotel Pattaya 323/9 Moo 9 Nongprue')}" target="_blank">マーチホテル</a> · <a class="x" href="https://www.booking.com/hotel/th/march.html" target="_blank">予約ページ</a><br><small>セカンドロード（パタヤ中心）・ビーチ0.7km・Walking St 2.2km（Grab約10分）・30㎡ ダブル/ツイン → 2室</small></p>
-<p>バンコク（11/22–24・11/26–28）：<a class="x" href="https://www.marriott.com/en-us/hotels/bkktm-metropole-bangkok-a-tribute-portfolio-hotel/overview/" target="_blank">メトロポール</a> · <a class="x" href="${map(M)}" target="_blank">地図</a><br><small>トンロー北端・ARLラムカムヘン1.7km・移動はGrab・ツイン27㎡</small></p>
-<h2>注意</h2><p><small>クラブは20歳〜・パスポート原本必須。営業時間は当日確認。</small></p>${WAL}<div class="cr">背景: <a href="https://commons.wikimedia.org/wiki/File:Chao_Phraya_River_from_Iconsiam_at_night,_Bangkok.jpg" target="_blank">Slyronit</a> / CC BY-SA 4.0</div></div></section>`;
+function render(){const keep=W.scrollLeft;let h='';
 const cat={};P.days.forEach((d,di)=>{let tot=0;h+=`<section class="s"><div class="in glass"><h2>DAY ${di} · ${esc(d.d)}</h2><div class="ttl">${esc(d.t)}</div><div class="tl">`;
 d.rows.forEach((r,ri)=>{const c=+r.c||0;tot+=c;if(c){const k=r.k||'その他';cat[k]=(cat[k]||0)+c*P.people}
 const nm=r.q?`<a class="x" href="${map(r.q)}" target="_blank">${esc(r.name)}</a>`:esc(r.name);
@@ -76,9 +72,20 @@ h+=`<div class="sub">当日小計 約${th(tot)}/人 ≈ ${yen(tot)}</div></div><
 P.extra.forEach(x=>cat[x.name]=(cat[x.name]||0));let tot=0;const lines=[];
 Object.entries(cat).forEach(([k,v])=>{if(!P.extra.some(x=>x.name==k)){lines.push(`<div class="b"><span>${esc(k)}</span><b>約${th(v)}</b><span></span></div>`);tot+=v}});
 P.extra.forEach((x,i)=>{tot+=+x.c||0;lines.push(`<div class="b"><span>${esc(x.name)}</span><b>約${th(x.c)}</b><button class="ed" onclick="ext(${i})">✎</button></div>`)});
-h+=`<section class="s"><div class="in glass"><h2>予算 · ${P.people}人 · 目安</h2><div class="big">約${th(tot)}</div><p>≈ ${yen(tot)} ／ 1人 約${th(Math.round(tot/P.people))} ≈ ${yen(tot/P.people)}<br><small>1฿≈¥${P.rate}（2026/11/2）・日別の金額から自動集計</small></p>${lines.join('')}
-<div class="b"><span>航空券</span><b>${esc(P.flight)}</b><span></span></div><button class="add" onclick="ext(-1)">＋ 項目追加</button><button class="add" onclick="rate()">レート変更</button><p><small>ホテル料金は未確認の目安。</small></p>${WAL}</div></section>`;
-W.innerHTML=h;const L=['概要',...P.days.map((_,i)=>'D'+i),'予算'];
+const pp=Math.round(tot/P.people);
+const ov=`<section class="s"><div class="in glass ov"><h2>概要 · Hiro・Fujisaki・Li</h2><div class="ttl">バンコク＋パタヤ<small> 11/22–28</small></div>
+<div class="bx"><div class="k">予算目安（航空券別）</div><div class="big">約${th(tot)} <small>≈ ${yen(tot)}</small></div><div class="pp">1人 約${th(pp)} ≈ ${yen(pp)}</div></div>
+${lines.join('')}<div class="b"><span>航空券（3人）</span><b>${esc(P.flight||'¥78,970')}</b><span></span></div>
+<button class="add" onclick="ext(-1)">＋ 予算項目追加</button><button class="add" onclick="rate()">レート変更</button>
+<small>1฿≈¥${P.rate}・日別の金額から自動集計・ホテルは目安</small>${WAL}
+<h2>フライト</h2><p>✈ 11/22 NRT T2 18:30 → BKK 23:55<br>✈ 11/28 DMK T1 23:55 → NRT 08:00（11/29）</p>
+<h2>ルート・ホテル</h2>
+<p>① 11/22–24 バンコク：<a class="x" href="${map(M)}" target="_blank">メトロポール</a><small>トンロー・ツイン2室</small></p>
+<p>② 11/24–26 パタヤ：<a class="x" href="${map('March Hotel Pattaya 323/9 Moo 9 Nongprue')}" target="_blank">マーチホテル</a><small>セカンドロード・Walking St 車10分・2室</small></p>
+<p>③ 11/26–28 バンコク：<a class="x" href="${map(M)}" target="_blank">メトロポール</a><small>11/28夜 DMKへ</small></p>
+<h2>注意</h2><p><small><span class="tag">TDAC</span> <a class="x" href="https://tdac.immigration.go.th" target="_blank">入国カード</a> 到着3日前〜・1人1件／クラブは20歳〜・パスポート原本</small></p>
+<div class="cr">背景: <a href="https://commons.wikimedia.org/wiki/File:Chao_Phraya_River_from_Iconsiam_at_night,_Bangkok.jpg" target="_blank">Slyronit</a> / CC BY-SA 4.0</div></div></section>`;h=ov+h;
+W.innerHTML=h;const L=['概要',...P.days.map((_,i)=>'D'+i)];
 document.getElementById('nav').innerHTML=L.map((l,i)=>`<button onclick="go(${i})">${l}</button>`).join('');document.getElementById('dots').innerHTML='<i></i>'.repeat(L.length);W.scrollLeft=keep;on()}
 function go(i){W.scrollTo({left:i*W.clientWidth,behavior:'smooth'})}
 function on(){const i=Math.round(W.scrollLeft/W.clientWidth);document.querySelectorAll('nav button').forEach((e,j)=>{e.classList.toggle('on',j==i);if(j==i)e.scrollIntoView({inline:'nearest',block:'nearest'})});document.querySelectorAll('.dots i').forEach((e,j)=>e.classList.toggle('on',j==i))}
