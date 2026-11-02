@@ -52,6 +52,8 @@ nav button{border:0;background:none;padding:7px 12px;border-radius:999px;font-si
 .sp{font-size:.7rem;font-weight:700;border-radius:6px;padding:0 5px;margin-left:4px;background:#e8d5a833;color:var(--a);white-space:nowrap}.sp.no{background:#ffffff1a;color:var(--mut)}.mi{color:#ffb4a8;border-color:#ffb4a888}
 .pm{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 6px}.pm div{background:#ffffff14;border-radius:12px;padding:8px 6px;text-align:center}.pm span{display:block;font-size:.78rem;color:var(--mut)}.pm b{display:block;font-size:1.02rem}.pm small{font-size:.75rem}.pp small{color:var(--mut);font-weight:600;font-size:.85rem}.pen{color:var(--mut)}
 button.btn{width:100%;border:0;font:inherit;font-weight:800}
+.cd{font-size:1.05rem;font-weight:700;color:var(--a);margin-bottom:10px}.cd b{font-size:1.5rem;font-variant-numeric:tabular-nums}
+.s.past .in{filter:grayscale(1);opacity:.55}nav button.pt{opacity:.4;text-decoration:line-through}
 </style></head><body>
 <header class="glass"><div class="hd"><div class="k">THAILAND · 11.22–28 · Hiro・Fujisaki・Li</div><button class="eb" id="eb" aria-label="編集">✎</button></div><nav id="nav"></nav><div class="dots" id="dots"></div></header>
 <div class="w" id="w"></div>
@@ -75,20 +77,28 @@ function per(m,i){P.personal=P.personal||{};const L=P.personal[m]=P.personal[m]|
 S.innerHTML=`<div class="ttl">${m} · ${i<0?'追加':'編集'}</div><label>項目</label><input id="f_name" value="${esc(x.name)}"><label>金額 ฿</label><input id="f_c" type="number" inputmode="numeric" value="${+x.c||0}">${swSel(x,m+'のみ')}
 <div class="acts">${i<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
 $('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0,s:$('#f_s').value=='1'};i<0?L.push(n):L[i]=n;save()};if(i>=0)$('#b_del').onclick=()=>{L.splice(i,1);save()}}
+// 時刻: 出発/帰国はJST固定の絶対時刻、日付の切替（終了判定・Day N）はタイ時間(UTC+7)。端末のタイムゾーンに依存しない。
+const QN=new URLSearchParams(location.search).get('now');const NOW=()=>QN?new Date(/[zZ]|[+-]\d\d:?\d\d$/.test(QN)?QN:QN+'+09:00'):new Date();
+const DEP=Date.parse('2026-11-22T18:30:00+09:00'),RET=Date.parse('2026-11-29T08:00:00+09:00');let ORD=[];
+const dd=d=>{const m=String(d.d).match(/(\d+)\/(\d+)/);return m?[+m[1],+m[2]]:null};
+function past(d){const x=dd(d);return !!x&&NOW()>=Date.UTC(2026,x[0]-1,x[1]+1,-7)}
+function cdT(){const n=+NOW();if(n<DEP){const t=Math.floor((DEP-n)/6e4);return `出発まで <b>${Math.floor(t/1440)}</b>日 <b>${Math.floor(t%1440/60)}</b>時間 <b>${t%60}</b>分`}
+if(n<RET){const b=new Date(n+7*36e5),i=P.days.findIndex(d=>{const x=dd(d);return x&&x[0]==b.getUTCMonth()+1&&x[1]==b.getUTCDate()});return `✈ 旅行中 <b>Day ${i<0?'—':i}</b>`}return 'お疲れさまでした 🙏'}
+setInterval(()=>{const e=document.getElementById('cd');if(e)e.innerHTML=cdT()},2e4);
 function toast(m,err){const t=$('#toast');t.textContent=m;t.className='toast glass'+(err?' err':'');t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2600)}
 function render(){const keep=W.scrollLeft;let h='';
-const cat={};P.days.forEach((d,di)=>{let tot=0;h+=`<section class="s"><div class="in glass"><h2>DAY ${di} · ${esc(d.d)}</h2><div class="ttl">${esc(d.t)}</div><div class="tl">`;
+const cat={},DH=[],PS=P.days.map(past);P.days.forEach((d,di)=>{let tot=0;const h0=h.length;h+=`<section class="s${PS[di]?' past':''}"><div class="in glass"><h2>DAY ${di} · ${esc(d.d)}${PS[di]?' <span class="tag">終了</span>':''}</h2><div class="ttl">${esc(d.t)}</div><div class="tl">`;
 d.rows.forEach((r,ri)=>{const c=+r.c||0;tot+=c;if(c){const k=r.k||'その他';cat[k]=(cat[k]||0)+c*P.people}
 const nm=r.q?`<a class="x" href="${map(r.q)}" target="_blank">${esc(r.name)}</a>`:esc(r.name);
 h+=`<div class="q"><div class="t">${esc(r.tm)}</div><div class="d"></div><div class="c">${nm}${c?` <span class="y">約${th(c)}/人</span>${sp(r)}`:''}<small>${esc(r.note)}</small></div><button class="ed" onclick="row(${di},${ri})">✎</button></div>`});
 h+=`</div><button class="add" onclick="row(${di},-1)">＋ 追加</button>`;
 if(di>0&&di<P.days.length-1){h+=`<h2>おすすめクラブ3選</h2>`;(d.clubs||[]).forEach((c,ci)=>{h+=`<div class="cl"><div><a class="x" href="${map(c.q||c.name)}" target="_blank">${esc(c.name)}</a> <small class="hr">${esc(c.hours)}</small><small>${esc(c.note)} · ${esc(c.price)}</small></div><button class="ed" onclick="club(${di},${ci})">✎</button></div>`});h+=`<button class="add" onclick="club(${di},-1)">＋ クラブ追加</button>`}
-h+=`<div class="sub">当日小計 約${th(tot)}/人 ≈ ${yen(tot)}</div></div></section>`});
+h+=`<div class="sub">当日小計 約${th(tot)}/人 ≈ ${yen(tot)}</div></div></section>`;DH[di]=h.slice(h0);h=h.slice(0,h0)});ORD=[...P.days.keys()].filter(i=>!PS[i]).concat([...P.days.keys()].filter(i=>PS[i]));h=ORD.map(i=>DH[i]).join('');
 P.extra.forEach(x=>cat[x.name]=(cat[x.name]||0));let tot=0;const lines=[];const T=calc();
 Object.entries(cat).forEach(([k,v])=>{if(!P.extra.some(x=>x.name==k)){lines.push(`<div class="b"><span>${esc(k)}</span><b>約${th(v)}</b><span></span></div>`);tot+=v}});
 P.extra.forEach((x,i)=>{tot+=+x.c||0;lines.push(`<div class="b"><span>${/宿泊|ホテル/.test(x.name)?'<span class="tag mi">未定</span> ':''}${esc(x.name)}${sp(x)}</span><b>約${th(x.c)}</b><button class="ed" onclick="ext(${i})">✎</button></div>`)});
 const pp=Math.round(tot/P.people);
-const ov=`<section class="s"><div class="in glass ov"><h2>概要 · Hiro・Fujisaki・Li</h2><div class="ttl">バンコク＋パタヤ<small> 11/22–28</small></div>
+const ov=`<section class="s"><div class="in glass ov"><div class="cd" id="cd">${cdT()}</div><h2>概要 · Hiro・Fujisaki・Li</h2><div class="ttl">バンコク＋パタヤ<small> 11/22–28</small></div>
 <div class="bx"><div class="k">合計（航空券別・ホテルは候補の目安）</div><div class="big">約${th(T.g)} <small>≈ ${yen(T.g)}</small></div><div class="pp">割り勘分 約${th(T.sp)} ≈ ${yen(T.sp)}<small>（1人 ${th(Math.round(T.sp/P.people))}）</small></div>
 <div class="pm">${MEM.map(m=>`<div onclick="go(${P.days.length+1+MEM.indexOf(m)})"><span>${m}</span><b>${th(Math.round(T.per[m]))}</b><small>${yen(T.per[m])}</small></div>`).join('')}</div><small>1人 = 自分の割り勘しない分 ＋ 割り勘分の1/${P.people}</small></div>
 <h2>内訳</h2>${lines.join('')}<div class="b"><span>航空券（3人）</span><b>${esc(P.flight||'¥78,970')}</b><span></span></div>
@@ -106,8 +116,8 @@ MEM.forEach(m=>{const L=(P.personal||{})[m]||[];h+=`<section class="s"><div clas
 L.forEach((x,i)=>{h+=`<div class="b" onclick="per('${m}',${i})"><span>${esc(x.name)}${sp(x)}</span><b>${th(x.c)}</b><span class="pen">✎</span></div>`});
 if(!L.length)h+=`<p><small>まだありません。下のボタンで追加（割り勘する項目は3人で分けて計算）</small></p>`;
 h+=`<button class="btn" onclick="per('${m}',-1)">＋ 支出を追加</button>${WAL}</div></section>`});
-W.innerHTML=h;const L=['概要',...P.days.map((_,i)=>'D'+i),...MEM];
-document.getElementById('nav').innerHTML=L.map((l,i)=>`<button onclick="go(${i})">${l}</button>`).join('');document.getElementById('dots').innerHTML='<i></i>'.repeat(L.length);W.scrollLeft=keep;on()}
+W.innerHTML=h;const L=['概要',...ORD.map(i=>'D'+i),...MEM];
+document.getElementById('nav').innerHTML=L.map((l,i)=>`<button class="${i>0&&i<=ORD.length&&PS[ORD[i-1]]?'pt':''}" onclick="go(${i})">${l}</button>`).join('');document.getElementById('dots').innerHTML='<i></i>'.repeat(L.length);W.scrollLeft=keep;on()}
 function go(i){W.scrollTo({left:i*W.clientWidth,behavior:'smooth'})}
 function on(){const i=Math.round(W.scrollLeft/W.clientWidth);document.querySelectorAll('nav button').forEach((e,j)=>{e.classList.toggle('on',j==i);if(j==i)e.scrollIntoView({inline:'nearest',block:'nearest'})});document.querySelectorAll('.dots i').forEach((e,j)=>e.classList.toggle('on',j==i))}
 W.addEventListener('scroll',()=>requestAnimationFrame(on));
@@ -135,5 +145,5 @@ if(r.status==401){localStorage.removeItem('tp_key');throw Error('パスワード
 localStorage.setItem('tp_key',k);close_();render();toast('保存しました')}catch(e){toast('保存失敗：'+e.message,1);load(true)}}
 async function load(q){try{const r=await fetch('/api/plan',{cache:'no-store'});if(r.ok){const j=await r.json();if(j&&j.days)P=j}}catch(e){if(!q)toast('オフライン表示',1)}render()}
 document.getElementById('eb').onclick=e=>{E=!E;document.body.classList.toggle('editing',E);e.target.classList.toggle('on',E);e.target.textContent=E?'✓':'✎';if(!E)close_()};
-render();const hs=parseInt(location.hash.slice(1));if(hs)W.scrollLeft=hs*W.clientWidth;on();if(location.protocol!='file:')load();
+render();const hs=parseInt(location.hash.slice(1));if(hs)W.scrollLeft=hs*W.clientWidth;else{const n=+NOW();if(n>=DEP&&n<RET)W.scrollLeft=W.clientWidth}on();if(location.protocol!='file:')load();
 </script></body></html>
