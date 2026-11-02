@@ -12,5 +12,6 @@ export default { async fetch(req, env) {
     }
     return new Response('method', {status:405});
   }
+  if (u.pathname === '/bg.webp') return new Response(Uint8Array.from(atob(BG), c=>c.charCodeAt(0)), {headers:{'content-type':'image/webp','cache-control':'public, max-age=604800'}});
   return new Response(H, {headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-cache'}});
 } };

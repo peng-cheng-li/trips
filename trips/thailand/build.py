@@ -7,7 +7,7 @@ plan=json.dumps(json.load(open(d/'plan.json')),ensure_ascii=False)
 html=(d/'template.html').read_text().replace('__PLAN__',plan.replace('</','<\\/'));(d/'index.html').write_text(html)
 if '--deploy' in sys.argv:
   key=pathlib.Path(sys.argv[sys.argv.index('--deploy')+1]).read_text().strip()
-  src='const H = '+json.dumps(html)+';\nconst DEF = '+json.dumps(plan)+';\n'+(d/'worker.js').read_text()
+  src='const H = '+json.dumps(html)+';\nconst DEF = '+json.dumps(plan)+';\nconst BG = '+json.dumps(base64.b64encode((d/'bg.webp').read_bytes()).decode())+';\n'+(d/'worker.js').read_text()
   b=base64.b64encode(src.encode()).decode()
   meta={'main_module':'worker.js','compatibility_date':'2026-10-01','bindings':[{'type':'kv_namespace','name':'PLAN','namespace_id':'d5e243e2b5ad4a968003d5203e7a0fa6'},{'type':'secret_text','name':'EDIT_KEY','text':key}]}
   js=f"""async () => {{
