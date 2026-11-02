@@ -84,6 +84,29 @@
      "k": "クラブ",
      "q": "Insomnia Walking Street Pattaya"
     }
+   ],
+   "clubs": [
+    {
+     "name": "Insomnia",
+     "q": "Insomnia Walking Street Pattaya",
+     "note": "大箱EDM・レーザー演出",
+     "price": "入場無料が多い・酒約฿250–400",
+     "hours": "21:00–03:00頃"
+    },
+    {
+     "name": "Republic",
+     "q": "Republic Nightclub Soi JP Pattaya",
+     "note": "DJ Mag Top100入り・国際DJ",
+     "price": "入場無料〜イベント時有料・酒約฿300–450",
+     "hours": "22:00–04:00頃"
+    },
+    {
+     "name": "808 Club",
+     "q": "808 Club Walking Street Pattaya",
+     "note": "ヒップホップ・テラス付き",
+     "price": "入場無料・酒約฿250–400",
+     "hours": "20:00–04:00頃"
+    }
    ]
   },
   {
@@ -138,6 +161,29 @@
      "k": "交通",
      "q": ""
     }
+   ],
+   "clubs": [
+    {
+     "name": "Lucifer",
+     "q": "Lucifer Club Walking Street Pattaya",
+     "note": "洞窟風・バンド＋DJ",
+     "price": "入場無料・酒約฿250–400",
+     "hours": "22:00–04:00頃"
+    },
+    {
+     "name": "Mixx",
+     "q": "Mixx Nightclub Walking Street Pattaya",
+     "note": "複数フロア・HIPHOP/EDM・22時〜1+1",
+     "price": "入場無料・酒約฿300–450",
+     "hours": "22:00–04:00頃"
+    },
+    {
+     "name": "Insomnia",
+     "q": "Insomnia Walking Street Pattaya",
+     "note": "前夜行かなければここ",
+     "price": "入場無料が多い・酒約฿250–400",
+     "hours": "21:00–03:00頃"
+    }
    ]
   },
   {
@@ -183,6 +229,29 @@
      "c": 150,
      "k": "交通",
      "q": ""
+    }
+   ],
+   "clubs": [
+    {
+     "name": "Octave",
+     "q": "Octave Rooftop Bangkok Marriott Sukhumvit",
+     "note": "トンローから近い360°ルーフトップ",
+     "price": "カクテル約฿400–600",
+     "hours": "17:00–02:00"
+    },
+    {
+     "name": "Levels",
+     "q": "Levels Club Sukhumvit Soi 11 Bangkok",
+     "note": "火曜は女性向けスパークリング",
+     "price": "入場約฿0–500・酒約฿300–450",
+     "hours": "22:00〜"
+    },
+    {
+     "name": "Baccarat",
+     "q": "Baccarat Bangkok club",
+     "note": "火曜ヒップホップナイト",
+     "price": "酒約฿300–450",
+     "hours": "22:00頃〜（要確認）"
     }
    ]
   },
@@ -238,6 +307,29 @@
      "k": "交通",
      "q": ""
     }
+   ],
+   "clubs": [
+    {
+     "name": "Sing Sing Theater",
+     "q": "Sing Sing Theater Bangkok",
+     "note": "水曜は海外DJ・内装が圧巻",
+     "price": "入場約฿400–600（1杯付）",
+     "hours": "20:00–02:00頃"
+    },
+    {
+     "name": "ONYX",
+     "q": "ONYX RCA Bangkok",
+     "note": "RCAの大箱EDM",
+     "price": "通常無料・イベント時約฿700",
+     "hours": "22:00–04:00"
+    },
+    {
+     "name": "Above Eleven",
+     "q": "Above Eleven Fraser Suites Sukhumvit Bangkok",
+     "note": "水曜サルサナイト・ルーフトップ",
+     "price": "カクテル約฿350–500",
+     "hours": "17:00–02:00"
+    }
    ]
   },
   {
@@ -283,6 +375,29 @@
      "c": 250,
      "k": "交通",
      "q": ""
+    }
+   ],
+   "clubs": [
+    {
+     "name": "Tichuca",
+     "q": "Tichuca Rooftop Bar Bangkok",
+     "note": "クラゲツリーの絶景・予約不可",
+     "price": "カクテル約฿400–550",
+     "hours": "17:00〜"
+    },
+    {
+     "name": "Route 66",
+     "q": "Route 66 RCA Bangkok",
+     "note": "RCAの老舗・HIPHOP/EDM",
+     "price": "入場約฿0–300・酒約฿250–400",
+     "hours": "22:00–04:00頃"
+    },
+    {
+     "name": "Sugar Club",
+     "q": "Sugar Club Sukhumvit Soi 11 Bangkok",
+     "note": "木曜ウォームアップ",
+     "price": "酒約฿300–450",
+     "hours": "22:00頃〜（要確認）"
     }
    ]
   },
