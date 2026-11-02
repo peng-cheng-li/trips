@@ -49,6 +49,9 @@ nav button{border:0;background:none;padding:7px 12px;border-radius:999px;font-si
 .toast{bottom:calc(var(--bar) + 10px)}
 .cr{font-size:.7rem;color:#ffffff80;margin-top:auto;padding-top:12px}.cr a{color:inherit}
 .ov p{margin:5px 0}.ov p small{display:block}.ov h2{margin-top:16px}.bx{padding:12px 14px;border-radius:16px;background:#ffffff12;border:1px solid #ffffff22;margin-bottom:4px}.bx .big{font-size:1.75rem}.bx .big small{font-size:1rem;color:var(--mut)}.pp{color:var(--a);font-weight:800;font-size:1.05rem}.ov .btn{margin-top:10px;padding:12px}.ov .b{padding:5px 0;font-size:.92rem}.ov .ttl small{font-size:1rem;color:var(--mut)}
+.sp{font-size:.7rem;font-weight:700;border-radius:6px;padding:0 5px;margin-left:4px;background:#e8d5a833;color:var(--a);white-space:nowrap}.sp.no{background:#ffffff1a;color:var(--mut)}.mi{color:#ffb4a8;border-color:#ffb4a888}
+.pm{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 6px}.pm div{background:#ffffff14;border-radius:12px;padding:8px 6px;text-align:center}.pm span{display:block;font-size:.78rem;color:var(--mut)}.pm b{display:block;font-size:1.02rem}.pm small{font-size:.75rem}.pp small{color:var(--mut);font-weight:600;font-size:.85rem}.pen{color:var(--mut)}
+button.btn{width:100%;border:0;font:inherit;font-weight:800}
 </style></head><body>
 <header class="glass"><div class="hd"><div class="k">THAILAND · 11.22–28 · Hiro・Fujisaki・Li</div><button class="eb" id="eb" aria-label="編集">✎</button></div><nav id="nav"></nav><div class="dots" id="dots"></div></header>
 <div class="w" id="w"></div>
@@ -60,32 +63,50 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const yen=b=>'¥'+(Math.round(b*P.rate/100)*100).toLocaleString(),th=b=>'฿'+Number(b).toLocaleString();
 const map=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
 const M='Metropole Bangkok Tribute Portfolio Hotel',WAL='<a class="btn" href="https://walica.jp/group/01M6DMSTVSD5AKZDK68FS8JGV6" target="_blank">割り勘（walica）</a>';
+const MEM=['Hiro','Fujisaki','Li'];const on_=x=>x.s!==false;
+const sp=x=>` <span class="sp ${on_(x)?'':'no'}">${on_(x)?'割り勘':'各自'}</span>`;
+function calc(){const per={};MEM.forEach(m=>per[m]=0);let spl=0;
+P.days.forEach(d=>d.rows.forEach(r=>{const c=+r.c||0;if(on_(r))spl+=c*P.people;else MEM.forEach(m=>per[m]+=c)}));
+P.extra.forEach(x=>{const c=+x.c||0;if(on_(x))spl+=c;else if(per[x.p]!=null)per[x.p]+=c;else MEM.forEach(m=>per[m]+=c/P.people)});
+MEM.forEach(m=>((P.personal||{})[m]||[]).forEach(x=>{const c=+x.c||0;if(on_(x))spl+=c;else per[m]+=c}));
+MEM.forEach(m=>per[m]+=spl/P.people);return{per,sp:spl,g:Object.values(per).reduce((a,b)=>a+b,0)}}
+const swSel=(x,lbl)=>`<label>割り勘</label><select id="f_s"><option value="1" ${on_(x)?'selected':''}>割り勘する（${P.people}人で分ける）</option><option value="0" ${on_(x)?'':'selected'}>しない（${lbl}）</option></select>`;
+function per(m,i){P.personal=P.personal||{};const L=P.personal[m]=P.personal[m]||[];const x=i<0?{name:'',c:0,s:false}:L[i];
+S.innerHTML=`<div class="ttl">${m} · ${i<0?'追加':'編集'}</div><label>項目</label><input id="f_name" value="${esc(x.name)}"><label>金額 ฿</label><input id="f_c" type="number" inputmode="numeric" value="${+x.c||0}">${swSel(x,m+'のみ')}
+<div class="acts">${i<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
+$('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0,s:$('#f_s').value=='1'};i<0?L.push(n):L[i]=n;save()};if(i>=0)$('#b_del').onclick=()=>{L.splice(i,1);save()}}
 function toast(m,err){const t=$('#toast');t.textContent=m;t.className='toast glass'+(err?' err':'');t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2600)}
 function render(){const keep=W.scrollLeft;let h='';
 const cat={};P.days.forEach((d,di)=>{let tot=0;h+=`<section class="s"><div class="in glass"><h2>DAY ${di} · ${esc(d.d)}</h2><div class="ttl">${esc(d.t)}</div><div class="tl">`;
 d.rows.forEach((r,ri)=>{const c=+r.c||0;tot+=c;if(c){const k=r.k||'その他';cat[k]=(cat[k]||0)+c*P.people}
 const nm=r.q?`<a class="x" href="${map(r.q)}" target="_blank">${esc(r.name)}</a>`:esc(r.name);
-h+=`<div class="q"><div class="t">${esc(r.tm)}</div><div class="d"></div><div class="c">${nm}${c?` <span class="y">約${th(c)}/人</span>`:''}<small>${esc(r.note)}</small></div><button class="ed" onclick="row(${di},${ri})">✎</button></div>`});
+h+=`<div class="q"><div class="t">${esc(r.tm)}</div><div class="d"></div><div class="c">${nm}${c?` <span class="y">約${th(c)}/人</span>${sp(r)}`:''}<small>${esc(r.note)}</small></div><button class="ed" onclick="row(${di},${ri})">✎</button></div>`});
 h+=`</div><button class="add" onclick="row(${di},-1)">＋ 追加</button>`;
 if(di>0&&di<P.days.length-1){h+=`<h2>おすすめクラブ3選</h2>`;(d.clubs||[]).forEach((c,ci)=>{h+=`<div class="cl"><div><a class="x" href="${map(c.q||c.name)}" target="_blank">${esc(c.name)}</a> <small class="hr">${esc(c.hours)}</small><small>${esc(c.note)} · ${esc(c.price)}</small></div><button class="ed" onclick="club(${di},${ci})">✎</button></div>`});h+=`<button class="add" onclick="club(${di},-1)">＋ クラブ追加</button>`}
 h+=`<div class="sub">当日小計 約${th(tot)}/人 ≈ ${yen(tot)}</div></div></section>`});
-P.extra.forEach(x=>cat[x.name]=(cat[x.name]||0));let tot=0;const lines=[];
+P.extra.forEach(x=>cat[x.name]=(cat[x.name]||0));let tot=0;const lines=[];const T=calc();
 Object.entries(cat).forEach(([k,v])=>{if(!P.extra.some(x=>x.name==k)){lines.push(`<div class="b"><span>${esc(k)}</span><b>約${th(v)}</b><span></span></div>`);tot+=v}});
-P.extra.forEach((x,i)=>{tot+=+x.c||0;lines.push(`<div class="b"><span>${esc(x.name)}</span><b>約${th(x.c)}</b><button class="ed" onclick="ext(${i})">✎</button></div>`)});
+P.extra.forEach((x,i)=>{tot+=+x.c||0;lines.push(`<div class="b"><span>${/宿泊|ホテル/.test(x.name)?'<span class="tag mi">未定</span> ':''}${esc(x.name)}${sp(x)}</span><b>約${th(x.c)}</b><button class="ed" onclick="ext(${i})">✎</button></div>`)});
 const pp=Math.round(tot/P.people);
 const ov=`<section class="s"><div class="in glass ov"><h2>概要 · Hiro・Fujisaki・Li</h2><div class="ttl">バンコク＋パタヤ<small> 11/22–28</small></div>
-<div class="bx"><div class="k">予算目安（航空券別）</div><div class="big">約${th(tot)} <small>≈ ${yen(tot)}</small></div><div class="pp">1人 約${th(pp)} ≈ ${yen(pp)}</div></div>
-${lines.join('')}<div class="b"><span>航空券（3人）</span><b>${esc(P.flight||'¥78,970')}</b><span></span></div>
+<div class="bx"><div class="k">合計（航空券別・ホテルは候補の目安）</div><div class="big">約${th(T.g)} <small>≈ ${yen(T.g)}</small></div><div class="pp">割り勘分 約${th(T.sp)} ≈ ${yen(T.sp)}<small>（1人 ${th(Math.round(T.sp/P.people))}）</small></div>
+<div class="pm">${MEM.map(m=>`<div onclick="go(${P.days.length+1+MEM.indexOf(m)})"><span>${m}</span><b>${th(Math.round(T.per[m]))}</b><small>${yen(T.per[m])}</small></div>`).join('')}</div><small>1人 = 自分の割り勘しない分 ＋ 割り勘分の1/${P.people}</small></div>
+<h2>内訳</h2>${lines.join('')}<div class="b"><span>航空券（3人）</span><b>${esc(P.flight||'¥78,970')}</b><span></span></div>
 <button class="add" onclick="ext(-1)">＋ 予算項目追加</button><button class="add" onclick="rate()">レート変更</button>
-<small>1฿≈¥${P.rate}・日別の金額から自動集計・ホテルは目安</small>${WAL}
+<small>1฿≈¥${P.rate}・日別の金額から自動集計・ホテル未予約（候補）</small>${WAL}
 <h2>フライト</h2><p>✈ 11/22 NRT T2 18:30 → BKK 23:55<br>✈ 11/28 DMK T1 23:55 → NRT 08:00（11/29）</p>
 <h2>ルート・ホテル</h2>
-<p>① 11/22–24 バンコク：<a class="x" href="${map(M)}" target="_blank">メトロポール</a><small>トンロー・ツイン2室</small></p>
-<p>② 11/24–26 パタヤ：<a class="x" href="${map('March Hotel Pattaya 323/9 Moo 9 Nongprue')}" target="_blank">マーチホテル</a><small>セカンドロード・Walking St 車10分・2室</small></p>
-<p>③ 11/26–28 バンコク：<a class="x" href="${map(M)}" target="_blank">メトロポール</a><small>11/28夜 DMKへ</small></p>
+<p>① 11/22–24 バンコク：<span class="tag mi">未定</span> <a class="x" href="${map(M)}" target="_blank">メトロポール（候補）</a><small>トンロー・ツイン2室</small></p>
+<p>② 11/24–26 パタヤ：<span class="tag mi">未定</span> <a class="x" href="${map('March Hotel Pattaya 323/9 Moo 9 Nongprue')}" target="_blank">マーチホテル（候補）</a><small>セカンドロード・Walking St 車10分・2室</small></p>
+<p>③ 11/26–28 バンコク：<span class="tag mi">未定</span> <a class="x" href="${map(M)}" target="_blank">メトロポール（候補）</a><small>11/28夜 DMKへ</small></p>
 <h2>注意</h2><p><small><span class="tag">TDAC</span> <a class="x" href="https://tdac.immigration.go.th" target="_blank">入国カード</a> 到着3日前〜・1人1件／クラブは20歳〜・パスポート原本</small></p>
 <div class="cr">背景: <a href="https://commons.wikimedia.org/wiki/File:Chao_Phraya_River_from_Iconsiam_at_night,_Bangkok.jpg" target="_blank">Slyronit</a> / CC BY-SA 4.0</div></div></section>`;h=ov+h;
-W.innerHTML=h;const L=['概要',...P.days.map((_,i)=>'D'+i)];
+MEM.forEach(m=>{const L=(P.personal||{})[m]||[];h+=`<section class="s"><div class="in glass"><h2>個人 · 自分の支出</h2><div class="ttl">${m}</div>
+<div class="bx"><div class="k">${m}の合計</div><div class="big">約${th(Math.round(T.per[m]))} <small>≈ ${yen(T.per[m])}</small></div><small>割り勘分 ${th(Math.round(T.sp/P.people))} ＋ 各自分 ${th(Math.round(T.per[m]-T.sp/P.people))}</small></div><h2>個人の項目</h2>`;
+L.forEach((x,i)=>{h+=`<div class="b" onclick="per('${m}',${i})"><span>${esc(x.name)}${sp(x)}</span><b>${th(x.c)}</b><span class="pen">✎</span></div>`});
+if(!L.length)h+=`<p><small>まだありません。下のボタンで追加（割り勘する項目は3人で分けて計算）</small></p>`;
+h+=`<button class="btn" onclick="per('${m}',-1)">＋ 支出を追加</button>${WAL}</div></section>`});
+W.innerHTML=h;const L=['概要',...P.days.map((_,i)=>'D'+i),...MEM];
 document.getElementById('nav').innerHTML=L.map((l,i)=>`<button onclick="go(${i})">${l}</button>`).join('');document.getElementById('dots').innerHTML='<i></i>'.repeat(L.length);W.scrollLeft=keep;on()}
 function go(i){W.scrollTo({left:i*W.clientWidth,behavior:'smooth'})}
 function on(){const i=Math.round(W.scrollLeft/W.clientWidth);document.querySelectorAll('nav button').forEach((e,j)=>{e.classList.toggle('on',j==i);if(j==i)e.scrollIntoView({inline:'nearest',block:'nearest'})});document.querySelectorAll('.dots i').forEach((e,j)=>e.classList.toggle('on',j==i))}
@@ -96,17 +117,17 @@ function row(di,ri){const r=ri<0?{tm:'',name:'',note:'',c:0,k:'食事',q:''}:P.d
 S.innerHTML=`<div class="ttl">${ri<0?'追加':'編集'} · DAY ${di}</div><div class="row2"><div><label>時間</label><input id="f_tm" value="${esc(r.tm)}"></div><div><label>金額 ฿/人</label><input id="f_c" type="number" inputmode="numeric" value="${+r.c||0}"></div></div>
 <label>名称</label><input id="f_name" value="${esc(r.name)}"><label>説明</label><input id="f_note" value="${esc(r.note)}">
 <div class="row2"><div><label>分類</label><select id="f_k">${CATS.map(c=>`<option ${c==(r.k||'その他')?'selected':''}>${c}</option>`).join('')}</select></div><div><label>地図検索（英語名＋都市）</label><input id="f_q" value="${esc(r.q)}"></div></div>
-<div class="acts">${ri<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
-$('#b_ok').onclick=()=>{const n={tm:$('#f_tm').value,name:$('#f_name').value,note:$('#f_note').value,c:+$('#f_c').value||0,k:$('#f_k').value,q:$('#f_q').value};const rows=P.days[di].rows;ri<0?rows.push(n):rows[ri]=n;rows.sort((a,b)=>a.tm.localeCompare(b.tm));save()};
+${swSel(r,'各自払い')}<div class="acts">${ri<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
+$('#b_ok').onclick=()=>{const n={tm:$('#f_tm').value,name:$('#f_name').value,note:$('#f_note').value,c:+$('#f_c').value||0,k:$('#f_k').value,q:$('#f_q').value,s:$('#f_s').value=='1'};const rows=P.days[di].rows;ri<0?rows.push(n):rows[ri]=n;rows.sort((a,b)=>a.tm.localeCompare(b.tm));save()};
 if(ri>=0)$('#b_del').onclick=()=>{P.days[di].rows.splice(ri,1);save()}}
 function club(di,ci){const d=P.days[di];d.clubs=d.clubs||[];const c=ci<0?{name:'',q:'',note:'',price:'',hours:''}:d.clubs[ci];
 S.innerHTML=`<div class="ttl">クラブ · DAY ${di}</div><label>名称</label><input id="f_name" value="${esc(c.name)}"><label>特徴</label><input id="f_note" value="${esc(c.note)}">
 <div class="row2"><div><label>料金</label><input id="f_p" value="${esc(c.price)}"></div><div><label>営業時間</label><input id="f_h" value="${esc(c.hours)}"></div></div><label>地図検索（英語名＋都市）</label><input id="f_q" value="${esc(c.q)}">
 <div class="acts">${ci<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
 $('#b_ok').onclick=()=>{const n={name:$('#f_name').value,note:$('#f_note').value,price:$('#f_p').value,hours:$('#f_h').value,q:$('#f_q').value};ci<0?d.clubs.push(n):d.clubs[ci]=n;save()};if(ci>=0)$('#b_del').onclick=()=>{d.clubs.splice(ci,1);save()}}
-function ext(i){const x=i<0?{name:'',c:0}:P.extra[i];S.innerHTML=`<div class="ttl">予算項目</div><label>名称</label><input id="f_name" value="${esc(x.name)}"><label>金額 ฿（${P.people}人合計）</label><input id="f_c" type="number" inputmode="numeric" value="${+x.c||0}">
+function ext(i){const x=i<0?{name:'',c:0}:P.extra[i];S.innerHTML=`<div class="ttl">予算項目</div><label>名称</label><input id="f_name" value="${esc(x.name)}"><label>金額 ฿（${P.people}人合計）</label><input id="f_c" type="number" inputmode="numeric" value="${+x.c||0}">${swSel(x,'支払者のみ')}<label>支払者（しない場合）</label><select id="f_p">${['',...MEM].map(m=>`<option value="${m}" ${m==(x.p||'')?'selected':''}>${m||'3人で各自'}</option>`).join('')}</select>
 <div class="acts">${i<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
-$('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0};i<0?P.extra.push(n):P.extra[i]=n;save()};if(i>=0)$('#b_del').onclick=()=>{P.extra.splice(i,1);save()}}
+$('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0,s:$('#f_s').value=='1',p:$('#f_p').value};i<0?P.extra.push(n):P.extra[i]=n;save()};if(i>=0)$('#b_del').onclick=()=>{P.extra.splice(i,1);save()}}
 function rate(){S.innerHTML=`<div class="ttl">レート</div><label>1฿ = ¥</label><input id="f_r" type="number" step="0.01" value="${P.rate}"><div class="acts"><button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');$('#b_ok').onclick=()=>{P.rate=+$('#f_r').value||P.rate;save()}}
 async function save(){let k=localStorage.getItem('tp_key');if(!k){k=prompt('編集用の共有パスワード');if(!k){toast('パスワードが必要です',1);return}}
 try{const r=await fetch('/api/plan',{method:'PUT',headers:{'content-type':'application/json','x-edit-key':k},body:JSON.stringify(P)});
