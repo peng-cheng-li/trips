@@ -4,7 +4,7 @@
  "days": [
   {
    "d": "11/22 土",
-   "t": "到着 → パタヤ",
+   "t": "到着 → バンコク",
    "rows": [
     {
      "tm": "23:55",
@@ -16,33 +16,34 @@
     },
     {
      "tm": "01:00",
-     "name": "車でパタヤ",
-     "note": "空港から約1.5h・約฿1,800/台",
-     "c": 600,
+     "name": "Grabでホテル",
+     "note": "約30–40分・約฿400/台",
+     "c": 135,
      "k": "交通",
      "q": ""
     },
     {
-     "tm": "02:30",
-     "name": "ホテル",
-     "note": "2室で予約",
+     "tm": "01:45",
+     "name": "メトロポール",
+     "note": "チェックイン（2泊）",
      "c": 0,
      "k": "",
-     "q": "Jomtien Beach Pattaya"
+     "q": "Metropole Bangkok Tribute Portfolio Hotel"
     }
-   ]
+   ],
+   "clubs": []
   },
   {
    "d": "11/23 日",
-   "t": "ウォーキングストリートの夜",
+   "t": "トンロー＋ルーフトップ",
    "rows": [
     {
      "tm": "13:00",
      "name": "ブランチ",
-     "note": "ゆっくり起きてシーフード",
-     "c": 500,
+     "note": "トンローのカフェ",
+     "c": 400,
      "k": "食事",
-     "q": "Pattaya seafood restaurant"
+     "q": "Thonglor Bangkok restaurant"
     },
     {
      "tm": "15:00",
@@ -58,153 +59,7 @@
      "note": "タイ古式1h",
      "c": 400,
      "k": "マッサージ",
-     "q": "Thai massage Pattaya"
-    },
-    {
-     "tm": "19:00",
-     "name": "夕食",
-     "note": "屋台やモールで",
-     "c": 300,
-     "k": "食事",
-     "q": ""
-    },
-    {
-     "tm": "21:00",
-     "name": "ウォーキングストリート",
-     "note": "Grab約15分・歩行者天国",
-     "c": 0,
-     "k": "",
-     "q": "Walking Street Pattaya"
-    },
-    {
-     "tm": "23:00",
-     "name": "Insomnia",
-     "note": "大箱EDM・入場無料が多い・20歳〜",
-     "c": 1500,
-     "k": "クラブ",
-     "q": "Insomnia Walking Street Pattaya"
-    }
-   ],
-   "clubs": [
-    {
-     "name": "Insomnia",
-     "q": "Insomnia Walking Street Pattaya",
-     "note": "大箱EDM・レーザー演出",
-     "price": "入場無料が多い・酒約฿250–400",
-     "hours": "21:00–03:00頃"
-    },
-    {
-     "name": "Republic",
-     "q": "Republic Nightclub Soi JP Pattaya",
-     "note": "DJ Mag Top100入り・国際DJ",
-     "price": "入場無料〜イベント時有料・酒約฿300–450",
-     "hours": "22:00–04:00頃"
-    },
-    {
-     "name": "808 Club",
-     "q": "808 Club Walking Street Pattaya",
-     "note": "ヒップホップ・テラス付き",
-     "price": "入場無料・酒約฿250–400",
-     "hours": "20:00–04:00頃"
-    }
-   ]
-  },
-  {
-   "d": "11/24 月",
-   "t": "寺院＋Lucifer",
-   "rows": [
-    {
-     "tm": "13:00",
-     "name": "ブランチ",
-     "note": "ホテル周辺",
-     "c": 400,
-     "k": "食事",
-     "q": ""
-    },
-    {
-     "tm": "15:00",
-     "name": "サンクチュアリ・オブ・トゥルース",
-     "note": "木造寺院・Grab約20分",
-     "c": 500,
-     "k": "入場料",
-     "q": "Sanctuary of Truth Pattaya"
-    },
-    {
-     "tm": "17:30",
-     "name": "展望台",
-     "note": "夕日スポット",
-     "c": 0,
-     "k": "",
-     "q": "Pattaya View Point"
-    },
-    {
-     "tm": "19:00",
-     "name": "夕食",
-     "note": "ビーチロード沿い",
-     "c": 400,
-     "k": "食事",
-     "q": ""
-    },
-    {
-     "tm": "22:30",
-     "name": "Lucifer",
-     "note": "洞窟風・バンド＋DJ・約22時〜",
-     "c": 1500,
-     "k": "クラブ",
-     "q": "Lucifer Club Walking Street Pattaya"
-    },
-    {
-     "tm": "—",
-     "name": "Grab移動",
-     "note": "この日の合計",
-     "c": 200,
-     "k": "交通",
-     "q": ""
-    }
-   ],
-   "clubs": [
-    {
-     "name": "Lucifer",
-     "q": "Lucifer Club Walking Street Pattaya",
-     "note": "洞窟風・バンド＋DJ",
-     "price": "入場無料・酒約฿250–400",
-     "hours": "22:00–04:00頃"
-    },
-    {
-     "name": "Mixx",
-     "q": "Mixx Nightclub Walking Street Pattaya",
-     "note": "複数フロア・HIPHOP/EDM・22時〜1+1",
-     "price": "入場無料・酒約฿300–450",
-     "hours": "22:00–04:00頃"
-    },
-    {
-     "name": "Insomnia",
-     "q": "Insomnia Walking Street Pattaya",
-     "note": "前夜行かなければここ",
-     "price": "入場無料が多い・酒約฿250–400",
-     "hours": "21:00–03:00頃"
-    }
-   ]
-  },
-  {
-   "d": "11/25 火",
-   "t": "バンコクへ＋ルーフトップ",
-   "rows": [
-    {
-     "tm": "13:00",
-     "name": "車でバンコク",
-     "note": "約2h・約฿1,800/台",
-     "c": 600,
-     "k": "交通",
-     "q": ""
-    },
-    {
-     "tm": "15:30",
-     "name": "メトロポール",
-     "note": "チェックイン・プール",
-     "c": 0,
-     "k": "",
-     "q": "Metropole Bangkok Tribute Portfolio Hotel"
+     "q": "Thonglor massage Bangkok"
     },
     {
      "tm": "19:00",
@@ -217,7 +72,7 @@
     {
      "tm": "21:30",
      "name": "Octave",
-     "note": "360°夜景・〜2時・ホテル経由で予約",
+     "note": "360°夜景・〜2時",
      "c": 1200,
      "k": "クラブ",
      "q": "Octave Rooftop Bangkok Marriott Sukhumvit"
@@ -249,36 +104,214 @@
     {
      "name": "Baccarat",
      "q": "Baccarat Bangkok club",
-     "note": "火曜ヒップホップナイト",
+     "note": "日曜も営業・ヒップホップ",
      "price": "酒約฿300–450",
      "hours": "22:00頃〜（要確認）"
     }
    ]
   },
   {
-   "d": "11/26 水",
-   "t": "トンロー＋Sing Sing",
+   "d": "11/24 月",
+   "t": "→ パタヤ＋Walking St",
    "rows": [
     {
-     "tm": "13:00",
-     "name": "ブランチ",
-     "note": "トンローのカフェ",
-     "c": 400,
-     "k": "食事",
-     "q": "Thonglor Bangkok restaurant"
-    },
-    {
-     "tm": "15:00",
-     "name": "プール",
-     "note": "ホテルで昼寝",
+     "tm": "12:00",
+     "name": "チェックアウト",
+     "note": "荷物ごと移動",
      "c": 0,
      "k": "",
      "q": ""
     },
     {
-     "tm": "17:00",
+     "tm": "12:30",
+     "name": "車でパタヤ",
+     "note": "約2h・約฿1,800/台",
+     "c": 600,
+     "k": "交通",
+     "q": ""
+    },
+    {
+     "tm": "15:00",
+     "name": "パタヤのホテル",
+     "note": "ジョムティエン周辺（2泊）・プール",
+     "c": 0,
+     "k": "",
+     "q": "Jomtien Beach Pattaya"
+    },
+    {
+     "tm": "17:30",
+     "name": "展望台",
+     "note": "夕日スポット",
+     "c": 0,
+     "k": "",
+     "q": "Pattaya View Point"
+    },
+    {
+     "tm": "19:00",
+     "name": "シーフード",
+     "note": "ビーチ沿いで夕食",
+     "c": 500,
+     "k": "食事",
+     "q": "Pattaya seafood restaurant"
+    },
+    {
+     "tm": "21:00",
+     "name": "ウォーキングストリート",
+     "note": "歩行者天国",
+     "c": 0,
+     "k": "",
+     "q": "Walking Street Pattaya"
+    },
+    {
+     "tm": "23:00",
+     "name": "Insomnia",
+     "note": "大箱EDM・20歳〜",
+     "c": 1500,
+     "k": "クラブ",
+     "q": "Insomnia Walking Street Pattaya"
+    },
+    {
+     "tm": "—",
+     "name": "Grab移動",
+     "note": "この日の合計",
+     "c": 100,
+     "k": "交通",
+     "q": ""
+    }
+   ],
+   "clubs": [
+    {
+     "name": "Insomnia",
+     "q": "Insomnia Walking Street Pattaya",
+     "note": "前夜行かなければここ",
+     "price": "入場無料が多い・酒約฿250–400",
+     "hours": "21:00–03:00頃"
+    },
+    {
+     "name": "808 Club",
+     "q": "808 Club Walking Street Pattaya",
+     "note": "ヒップホップ・テラス付き",
+     "price": "入場無料・酒約฿250–400",
+     "hours": "20:00–04:00頃"
+    },
+    {
+     "name": "Mixx",
+     "q": "Mixx Nightclub Walking Street Pattaya",
+     "note": "複数フロア・HIPHOP/EDM・22時〜1+1",
+     "price": "入場無料・酒約฿300–450",
+     "hours": "22:00–04:00頃"
+    }
+   ]
+  },
+  {
+   "d": "11/25 火",
+   "t": "寺院＋Lucifer",
+   "rows": [
+    {
+     "tm": "13:00",
+     "name": "ブランチ",
+     "note": "ホテル周辺",
+     "c": 400,
+     "k": "食事",
+     "q": ""
+    },
+    {
+     "tm": "15:00",
+     "name": "サンクチュアリ・オブ・トゥルース",
+     "note": "木造寺院・Grab約20分",
+     "c": 500,
+     "k": "入場料",
+     "q": "Sanctuary of Truth Pattaya"
+    },
+    {
+     "tm": "17:30",
      "name": "マッサージ",
      "note": "タイ古式1h",
+     "c": 400,
+     "k": "マッサージ",
+     "q": "Thai massage Pattaya"
+    },
+    {
+     "tm": "19:30",
+     "name": "夕食",
+     "note": "ビーチロード沿い",
+     "c": 400,
+     "k": "食事",
+     "q": ""
+    },
+    {
+     "tm": "22:30",
+     "name": "Lucifer",
+     "note": "洞窟風・バンド＋DJ",
+     "c": 1500,
+     "k": "クラブ",
+     "q": "Lucifer Club Walking Street Pattaya"
+    },
+    {
+     "tm": "—",
+     "name": "Grab移動",
+     "note": "この日の合計",
+     "c": 200,
+     "k": "交通",
+     "q": ""
+    }
+   ],
+   "clubs": [
+    {
+     "name": "Lucifer",
+     "q": "Lucifer Club Walking Street Pattaya",
+     "note": "洞窟風・バンド＋DJ",
+     "price": "入場無料・酒約฿250–400",
+     "hours": "22:00–04:00頃"
+    },
+    {
+     "name": "Republic",
+     "q": "Republic Nightclub Soi JP Pattaya",
+     "note": "DJ Mag Top100入り・国際DJ",
+     "price": "入場無料〜イベント時有料・酒約฿300–450",
+     "hours": "22:00–04:00頃"
+    },
+    {
+     "name": "Insomnia",
+     "q": "Insomnia Walking Street Pattaya",
+     "note": "前夜行かなければここ",
+     "price": "入場無料が多い・酒約฿250–400",
+     "hours": "21:00–03:00頃"
+    }
+   ]
+  },
+  {
+   "d": "11/26 水",
+   "t": "→ バンコク＋Sing Sing",
+   "rows": [
+    {
+     "tm": "12:00",
+     "name": "チェックアウト",
+     "note": "荷物ごと移動",
+     "c": 0,
+     "k": "",
+     "q": ""
+    },
+    {
+     "tm": "13:00",
+     "name": "車でバンコク",
+     "note": "約2h・約฿1,800/台",
+     "c": 600,
+     "k": "交通",
+     "q": ""
+    },
+    {
+     "tm": "15:30",
+     "name": "メトロポール",
+     "note": "再チェックイン（2泊）・プール",
+     "c": 0,
+     "k": "",
+     "q": "Metropole Bangkok Tribute Portfolio Hotel"
+    },
+    {
+     "tm": "17:30",
+     "name": "マッサージ",
+     "note": "トンロー周辺",
      "c": 400,
      "k": "マッサージ",
      "q": "Thonglor massage Bangkok"
@@ -289,7 +322,7 @@
      "note": "トンロー周辺",
      "c": 500,
      "k": "食事",
-     "q": ""
+     "q": "Thonglor Bangkok restaurant"
     },
     {
      "tm": "22:00",
@@ -317,18 +350,18 @@
      "hours": "20:00–02:00頃"
     },
     {
-     "name": "ONYX",
-     "q": "ONYX RCA Bangkok",
-     "note": "RCAの大箱EDM",
-     "price": "通常無料・イベント時約฿700",
-     "hours": "22:00–04:00"
-    },
-    {
      "name": "Above Eleven",
      "q": "Above Eleven Fraser Suites Sukhumvit Bangkok",
      "note": "水曜サルサナイト・ルーフトップ",
      "price": "カクテル約฿350–500",
      "hours": "17:00–02:00"
+    },
+    {
+     "name": "Route 66",
+     "q": "Route 66 RCA Bangkok",
+     "note": "RCAの老舗・HIPHOP/EDM",
+     "price": "入場約฿0–300・酒約฿250–400",
+     "hours": "22:00–04:00頃"
     }
    ]
   },
@@ -347,7 +380,7 @@
     {
      "tm": "16:40",
      "name": "Tichuca",
-     "note": "予約不可・早めに整理券・パスポート原本",
+     "note": "予約不可・パスポート原本",
      "c": 800,
      "k": "クラブ",
      "q": "Tichuca Rooftop Bar Bangkok"
@@ -363,7 +396,7 @@
     {
      "tm": "22:30",
      "name": "RCA",
-     "note": "クラブ通り・店は当日確認",
+     "note": "クラブ通り",
      "c": 1500,
      "k": "クラブ",
      "q": "RCA Royal City Avenue Bangkok"
@@ -386,11 +419,11 @@
      "hours": "17:00〜"
     },
     {
-     "name": "Route 66",
-     "q": "Route 66 RCA Bangkok",
-     "note": "RCAの老舗・HIPHOP/EDM",
-     "price": "入場約฿0–300・酒約฿250–400",
-     "hours": "22:00–04:00頃"
+     "name": "ONYX",
+     "q": "ONYX RCA Bangkok",
+     "note": "RCAの大箱EDM",
+     "price": "通常無料・イベント時約฿700",
+     "hours": "22:00–04:00"
     },
     {
      "name": "Sugar Club",
@@ -437,17 +470,18 @@
      "k": "",
      "q": ""
     }
-   ]
+   ],
+   "clubs": []
   }
  ],
  "extra": [
   {
-   "name": "宿泊 パタヤ（2室×3泊）",
-   "c": 12000
+   "name": "宿泊 メトロポール（2室×4泊）",
+   "c": 24000
   },
   {
-   "name": "宿泊 メトロポール（2室×3泊）",
-   "c": 18000
+   "name": "宿泊 パタヤ（2室×2泊）",
+   "c": 8000
   }
  ],
  "flight": "¥78,970（予約済み）"

@@ -54,8 +54,8 @@ function toast(m,err){const t=$('#toast');t.textContent=m;t.className='toast gla
 function render(){const keep=W.scrollLeft;let h=`<section class="s"><div class="in glass"><h2>概要</h2><div class="ttl">バンコク＋パタヤ</div>
 <p>Hiro・Fujisaki・Li<br>11/22 NRT 18:30 → BKK 23:55<br>11/28 DMK 23:55 → NRT 08:00</p>
 <p><span class="tag">TDAC</span> <a class="x" href="https://tdac.immigration.go.th" target="_blank">入国カード登録</a> 到着3日前から・1人1件</p>
-<h2>ホテル</h2><p>パタヤ：<a class="x" href="${map('Jomtien Beach Pattaya')}" target="_blank">ジョムティエン周辺</a>（2室）</p>
-<p>バンコク：<a class="x" href="https://www.marriott.com/en-us/hotels/bkktm-metropole-bangkok-a-tribute-portfolio-hotel/overview/" target="_blank">メトロポール</a> · <a class="x" href="${map(M)}" target="_blank">地図</a><br><small>トンロー北端・ARLラムカムヘン1.7km・移動はGrab・ツイン27㎡</small></p>
+<h2>ホテル</h2><p>パタヤ（11/24–26）：<a class="x" href="${map('Jomtien Beach Pattaya')}" target="_blank">ジョムティエン周辺</a>（2室）</p>
+<p>バンコク（11/22–24・11/26–28）：<a class="x" href="https://www.marriott.com/en-us/hotels/bkktm-metropole-bangkok-a-tribute-portfolio-hotel/overview/" target="_blank">メトロポール</a> · <a class="x" href="${map(M)}" target="_blank">地図</a><br><small>トンロー北端・ARLラムカムヘン1.7km・移動はGrab・ツイン27㎡</small></p>
 <h2>注意</h2><p><small>クラブは20歳〜・パスポート原本必須。営業時間は当日確認。</small></p>${WAL}<div class="cr">背景: <a href="https://commons.wikimedia.org/wiki/File:Chao_Phraya_River_from_Iconsiam_at_night,_Bangkok.jpg" target="_blank">Slyronit</a> / CC BY-SA 4.0</div></div></section>`;
 const cat={};P.days.forEach((d,di)=>{let tot=0;h+=`<section class="s"><div class="in glass"><h2>DAY ${di} · ${esc(d.d)}</h2><div class="ttl">${esc(d.t)}</div><div class="tl">`;
 d.rows.forEach((r,ri)=>{const c=+r.c||0;tot+=c;if(c){const k=r.k||'その他';cat[k]=(cat[k]||0)+c*P.people}
