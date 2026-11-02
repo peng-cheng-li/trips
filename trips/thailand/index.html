@@ -38,9 +38,18 @@ a.x{color:var(--a);font-weight:700;text-decoration:none}
 .ok{background:var(--a);color:#1a1712}.cn{background:#ffffff26;color:#fff}.del{background:#b8524f;color:#fff}
 .toast{position:fixed;left:50%;bottom:calc(var(--bar) + 12px);transform:translateX(-50%);z-index:9;padding:10px 16px;border-radius:12px;font-size:.92rem;font-weight:700;display:none}.toast.err{background:#b8524fcc}
 .cl{display:grid;grid-template-columns:1fr auto;gap:6px;padding:8px 0;border-bottom:1px solid #ffffff1a;font-size:1rem}.cl small{display:block;line-height:1.4}.cl .hr{display:inline;color:var(--a);opacity:.8}
+
+:root{--bar:calc(76px + env(safe-area-inset-bottom))}
+header{left:12px;right:12px;bottom:calc(8px + env(safe-area-inset-bottom));height:56px;padding:6px 6px 6px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.25);flex-direction:row;align-items:center;gap:6px;background:rgba(28,28,30,.45);box-shadow:0 8px 30px -8px rgba(0,0,0,.6)}
+header .hd{order:2;margin:0}header .k,header .dots{display:none}
+nav{flex:1;gap:2px;align-items:center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10px,#000 calc(100% - 14px),transparent);mask-image:linear-gradient(90deg,transparent,#000 10px,#000 calc(100% - 14px),transparent);padding:0 6px}
+nav button{border:0;background:none;padding:7px 12px;border-radius:999px;font-size:.92rem;color:rgba(255,255,255,.62)}nav button.on{background:rgba(255,255,255,.16);color:var(--a)}
+.eb{width:44px;height:44px;padding:0;border-radius:50%;font-size:1.15rem;display:grid;place-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.w{bottom:0}.s{padding-bottom:calc(var(--bar) + 6px)}
+.toast{bottom:calc(var(--bar) + 10px)}
 .cr{font-size:.7rem;color:#ffffff80;margin-top:auto;padding-top:12px}.cr a{color:inherit}
 </style></head><body>
-<header class="glass"><div class="hd"><div class="k">THAILAND · 11.22–28 · Hiro・Fujisaki・Li</div><button class="eb" id="eb">編集</button></div><nav id="nav"></nav><div class="dots" id="dots"></div></header>
+<header class="glass"><div class="hd"><div class="k">THAILAND · 11.22–28 · Hiro・Fujisaki・Li</div><button class="eb" id="eb" aria-label="編集">✎</button></div><nav id="nav"></nav><div class="dots" id="dots"></div></header>
 <div class="w" id="w"></div>
 <div class="sheet glass" id="sheet"></div><div class="toast glass" id="toast"></div>
 <script>
@@ -97,6 +106,6 @@ try{const r=await fetch('/api/plan',{method:'PUT',headers:{'content-type':'appli
 if(r.status==401){localStorage.removeItem('tp_key');throw Error('パスワードが違います')}if(!r.ok)throw Error('HTTP '+r.status);
 localStorage.setItem('tp_key',k);close_();render();toast('保存しました')}catch(e){toast('保存失敗：'+e.message,1);load(true)}}
 async function load(q){try{const r=await fetch('/api/plan',{cache:'no-store'});if(r.ok){const j=await r.json();if(j&&j.days)P=j}}catch(e){if(!q)toast('オフライン表示',1)}render()}
-document.getElementById('eb').onclick=e=>{E=!E;document.body.classList.toggle('editing',E);e.target.classList.toggle('on',E);e.target.textContent=E?'完了':'編集';if(!E)close_()};
+document.getElementById('eb').onclick=e=>{E=!E;document.body.classList.toggle('editing',E);e.target.classList.toggle('on',E);e.target.textContent=E?'✓':'✎';if(!E)close_()};
 render();const hs=parseInt(location.hash.slice(1));if(hs)W.scrollLeft=hs*W.clientWidth;on();if(location.protocol!='file:')load();
 </script></body></html>
