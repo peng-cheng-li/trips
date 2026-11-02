@@ -53,7 +53,20 @@ nav button{border:0;background:none;padding:7px 12px;border-radius:999px;font-si
 .pm{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 6px}.pm div{background:#ffffff14;border-radius:12px;padding:8px 6px;text-align:center}.pm span{display:block;font-size:.78rem;color:var(--mut)}.pm b{display:block;font-size:1.02rem}.pm small{font-size:.75rem}.pp small{color:var(--mut);font-weight:600;font-size:.85rem}.pen{color:var(--mut)}
 button.btn{width:100%;border:0;font:inherit;font-weight:800}
 .cd{font-size:1.05rem;font-weight:700;color:var(--a);margin-bottom:10px}.cd b{font-size:1.5rem;font-variant-numeric:tabular-nums}
-.s.past .in{filter:grayscale(1);opacity:.55}nav button.pt{opacity:.4;text-decoration:line-through}
+.s.past .in{filter:grayscale(1);opacity:.55}nav button{color:rgba(255,255,255,.85)!important}nav button.on{color:var(--a)!important}nav button.pt{opacity:.35;text-decoration:line-through}
+.k small{font-size:.75rem}
+.fc{display:flex;gap:8px;margin:4px 0 14px}.fc>div{flex:1;text-align:center}.fc small{display:block;margin-top:4px;font-size:.75rem}
+.ft{position:relative;perspective:300px;height:62px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;overflow:hidden;font-size:2.1rem;font-weight:800;color:var(--a);font-variant-numeric:tabular-nums}
+.ft::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.45)}
+.ft span{display:block;transform-origin:50% 50%}.ft.flip span{animation:fl .45s ease-out}@keyframes fl{0%{transform:rotateX(90deg);opacity:.3}60%{transform:rotateX(-12deg)}100%{transform:none;opacity:1}}
+.cd{font-size:1.2rem;font-weight:800;color:var(--a);margin-bottom:10px}
+.fl1,.ht{font-size:.95rem;margin:12px 2px 0;font-variant-numeric:tabular-nums}.ht{margin-top:6px}
+.wl{display:inline-block;margin-top:12px;color:var(--a);font-weight:700;text-decoration:none;font-size:.92rem}
+.dt{margin-top:14px;border-top:1px solid #ffffff22;padding-top:10px}.dt summary{font-weight:700;color:var(--mut);cursor:pointer;list-style:none}.dt summary::before{content:"▸ "}.dt[open] summary::before{content:"▾ "}
+.add2{border:1px dashed #ffffff55;background:none;color:#fff;border-radius:12px;padding:9px;font:inherit;font-size:.9rem;font-weight:700;margin-top:10px}
+.q .sp:not(.no){display:none}.c,.t{padding:5px 0}.c small{font-size:.8rem}.d::before{top:12px}.d::after{top:22px}.ttl{margin-bottom:6px}
+.pw{position:fixed;inset:0;z-index:20;background:#0008;display:grid;place-items:center;padding:24px}.pw>div{width:100%;max-width:340px;border-radius:22px;padding:18px;background:rgba(30,30,32,.6)}
+.pw input{width:100%;margin:10px 0 6px;border:1px solid #ffffff40;background:#ffffff14;color:#fff;border-radius:12px;padding:12px;font:inherit;font-size:17px}
 </style></head><body>
 <header class="glass"><div class="hd"><div class="k">THAILAND · 11.22–28 · Hiro・Fujisaki・Li</div><button class="eb" id="eb" aria-label="編集">✎</button></div><nav id="nav"></nav><div class="dots" id="dots"></div></header>
 <div class="w" id="w"></div>
@@ -78,13 +91,20 @@ S.innerHTML=`<div class="ttl">${m} · ${i<0?'追加':'編集'}</div><label>項�
 <div class="acts">${i<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
 $('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0,s:$('#f_s').value=='1'};i<0?L.push(n):L[i]=n;save()};if(i>=0)$('#b_del').onclick=()=>{L.splice(i,1);save()}}
 // 時刻: 出発/帰国はJST固定の絶対時刻、日付の切替（終了判定・Day N）はタイ時間(UTC+7)。端末のタイムゾーンに依存しない。
-const QN=new URLSearchParams(location.search).get('now');const NOW=()=>QN?new Date(/[zZ]|[+-]\d\d:?\d\d$/.test(QN)?QN:QN+'+09:00'):new Date();
+const QN=new URLSearchParams(location.search).get('now');function pq(q){const m=String(q||'').match(/^(\d{4})-(\d\d)-(\d\d)(?:[T ](\d\d):(\d\d)(?::(\d\d))?)?(Z|[+-]\d\d:?\d\d)?$/);if(!m)return NaN;let o=9*60;if(m[7]){o=m[7]=='Z'?0:(m[7][0]=='-'?-1:1)*(+m[7].slice(1,3)*60+ +m[7].slice(-2))}return Date.UTC(+m[1],m[2]-1,+m[3],+(m[4]||0),+(m[5]||0),+(m[6]||0))-o*6e4}
+const QT=pq(QN);const NOW=()=>new Date(isFinite(QT)?QT:Date.now());
 const DEP=Date.parse('2026-11-22T18:30:00+09:00'),RET=Date.parse('2026-11-29T08:00:00+09:00');let ORD=[];
 const dd=d=>{const m=String(d.d).match(/(\d+)\/(\d+)/);return m?[+m[1],+m[2]]:null};
-function past(d){const x=dd(d);return !!x&&NOW()>=Date.UTC(2026,x[0]-1,x[1]+1,-7)}
+function past(d){const x=dd(d);if(!x)return false;const e=Date.UTC(2026,x[0]-1,x[1],17);return isFinite(e)&&+NOW()>=e}
+function cdH(){const n=+NOW();if(n>=DEP)return `<div class="cd">${cdT()}</div>`;
+return `<div class="k">出発まで</div><div class="fc">${['日','時','分','秒'].map((u,i)=>`<div><div class="ft" data-i="${i}"><span>--</span></div><small>${u}</small></div>`).join('')}</div>`}
+function tick(){const n=+NOW()+(isFinite(QT)?(Date.now()-T0):0);if(n>=DEP){const e=document.getElementById('cd');if(e&&e.querySelector('.fc'))e.innerHTML=cdH();return}
+const t=Math.floor((DEP-n)/1e3),v=[Math.floor(t/86400),Math.floor(t%86400/3600),Math.floor(t%3600/60),t%60];
+document.querySelectorAll('.ft').forEach(e=>{const x=String(v[e.dataset.i]).padStart(2,'0'),sp=e.firstChild;if(sp.textContent!==x){sp.textContent=x;e.classList.remove('flip');void e.offsetWidth;e.classList.add('flip')}})}
+const T0=Date.now();setInterval(tick,1000);
 function cdT(){const n=+NOW();if(n<DEP){const t=Math.floor((DEP-n)/6e4);return `出発まで <b>${Math.floor(t/1440)}</b>日 <b>${Math.floor(t%1440/60)}</b>時間 <b>${t%60}</b>分`}
 if(n<RET){const b=new Date(n+7*36e5),i=P.days.findIndex(d=>{const x=dd(d);return x&&x[0]==b.getUTCMonth()+1&&x[1]==b.getUTCDate()});return `✈ 旅行中 <b>Day ${i<0?'—':i}</b>`}return 'お疲れさまでした 🙏'}
-setInterval(()=>{const e=document.getElementById('cd');if(e)e.innerHTML=cdT()},2e4);
+
 function toast(m,err){const t=$('#toast');t.textContent=m;t.className='toast glass'+(err?' err':'');t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2600)}
 function render(){const keep=W.scrollLeft;let h='';
 const cat={},DH=[],PS=P.days.map(past);P.days.forEach((d,di)=>{let tot=0;const h0=h.length;h+=`<section class="s${PS[di]?' past':''}"><div class="in glass"><h2>DAY ${di} · ${esc(d.d)}${PS[di]?' <span class="tag">終了</span>':''}</h2><div class="ttl">${esc(d.t)}</div><div class="tl">`;
@@ -98,25 +118,24 @@ P.extra.forEach(x=>cat[x.name]=(cat[x.name]||0));let tot=0;const lines=[];const 
 Object.entries(cat).forEach(([k,v])=>{if(!P.extra.some(x=>x.name==k)){lines.push(`<div class="b"><span>${esc(k)}</span><b>約${th(v)}</b><span></span></div>`);tot+=v}});
 P.extra.forEach((x,i)=>{tot+=+x.c||0;lines.push(`<div class="b"><span>${/宿泊|ホテル/.test(x.name)?'<span class="tag mi">未定</span> ':''}${esc(x.name)}${sp(x)}</span><b>約${th(x.c)}</b><button class="ed" onclick="ext(${i})">✎</button></div>`)});
 const pp=Math.round(tot/P.people);
-const ov=`<section class="s"><div class="in glass ov"><div class="cd" id="cd">${cdT()}</div><h2>概要 · Hiro・Fujisaki・Li</h2><div class="ttl">バンコク＋パタヤ<small> 11/22–28</small></div>
-<div class="bx"><div class="k">合計（航空券別・ホテルは候補の目安）</div><div class="big">約${th(T.g)} <small>≈ ${yen(T.g)}</small></div><div class="pp">割り勘分 約${th(T.sp)} ≈ ${yen(T.sp)}<small>（1人 ${th(Math.round(T.sp/P.people))}）</small></div>
-<div class="pm">${MEM.map(m=>`<div onclick="go(${P.days.length+1+MEM.indexOf(m)})"><span>${m}</span><b>${th(Math.round(T.per[m]))}</b><small>${yen(T.per[m])}</small></div>`).join('')}</div><small>1人 = 自分の割り勘しない分 ＋ 割り勘分の1/${P.people}</small></div>
-<h2>内訳</h2>${lines.join('')}<div class="b"><span>航空券（3人）</span><b>${esc(P.flight||'¥78,970')}</b><span></span></div>
-<button class="add" onclick="ext(-1)">＋ 予算項目追加</button><button class="add" onclick="rate()">レート変更</button>
-<small>1฿≈¥${P.rate}・日別の金額から自動集計・ホテル未予約（候補）</small>${WAL}
-<h2>フライト</h2><p>✈ 11/22 NRT T2 18:30 → BKK 23:55<br>✈ 11/28 DMK T1 23:55 → NRT 08:00（11/29）</p>
-<h2>ルート・ホテル</h2>
-<p>① 11/22–24 バンコク：<span class="tag mi">未定</span> <a class="x" href="${map(M)}" target="_blank">メトロポール（候補）</a><small>トンロー・ツイン2室</small></p>
-<p>② 11/24–26 パタヤ：<span class="tag mi">未定</span> <a class="x" href="${map('March Hotel Pattaya 323/9 Moo 9 Nongprue')}" target="_blank">マーチホテル（候補）</a><small>セカンドロード・Walking St 車10分・2室</small></p>
-<p>③ 11/26–28 バンコク：<span class="tag mi">未定</span> <a class="x" href="${map(M)}" target="_blank">メトロポール（候補）</a><small>11/28夜 DMKへ</small></p>
-<h2>注意</h2><p><small><span class="tag">TDAC</span> <a class="x" href="https://tdac.immigration.go.th" target="_blank">入国カード</a> 到着3日前〜・1人1件／クラブは20歳〜・パスポート原本</small></p>
-<div class="cr">背景: <a href="https://commons.wikimedia.org/wiki/File:Chao_Phraya_River_from_Iconsiam_at_night,_Bangkok.jpg" target="_blank">Slyronit</a> / CC BY-SA 4.0</div></div></section>`;h=ov+h;
-MEM.forEach(m=>{const L=(P.personal||{})[m]||[];h+=`<section class="s"><div class="in glass"><h2>個人 · 自分の支出</h2><div class="ttl">${m}</div>
-<div class="bx"><div class="k">${m}の合計</div><div class="big">約${th(Math.round(T.per[m]))} <small>≈ ${yen(T.per[m])}</small></div><small>割り勘分 ${th(Math.round(T.sp/P.people))} ＋ 各自分 ${th(Math.round(T.per[m]-T.sp/P.people))}</small></div><h2>個人の項目</h2>`;
+const ov=`<section class="s"><div class="in glass ov"><div id="cd">${cdH()}</div>
+<div class="ttl">バンコク＋パタヤ<small> 11/22–28</small></div>
+<div class="bx"><div class="k">合計 <small>（航空券別・目安）</small></div><div class="big">約${th(T.g)} <small>≈ ${yen(T.g)}</small></div>
+<div class="pm">${MEM.map(m=>`<div onclick="go(${P.days.length+1+MEM.indexOf(m)})"><span>${m}</span><b>${th(Math.round(T.per[m]))}</b><small>${yen(T.per[m])}</small></div>`).join('')}</div></div>
+<div class="fl1">✈ 行き 11/22 NRT 18:30 → BKK 23:55<br>✈ 帰り 11/28 DMK 23:55 → NRT 08:00</div>
+<div class="ht"><span class="tag mi">未定</span> BKK <a class="x" href="${map(M)}" target="_blank">メトロポール</a> · PTY <a class="x" href="${map('March Hotel Pattaya 323/9 Moo 9 Nongprue')}" target="_blank">マーチ</a></div>
+<a class="wl" href="https://walica.jp/group/01M6DMSTVSD5AKZDK68FS8JGV6" target="_blank">割り勘 walica ↗</a>
+<details class="dt"><summary>詳細</summary>
+<p><small>割り勘分 約${th(T.sp)}（1人 ${th(Math.round(T.sp/P.people))}）／1人 = 各自分 ＋ 割り勘分÷${P.people}</small></p>
+${lines.join('')}<div class="b"><span>航空券（3人）</span><b>${esc(P.flight||'¥78,970')}</b><span></span></div>
+<div class="row2"><button class="add2" onclick="ext(-1)">＋ 予算項目</button><button class="add2" onclick="rate()">レート ¥${P.rate}</button></div>
+<p><small>ルート：BKK 11/22–24 → パタヤ 11/24–26 → BKK 11/26–28／ホテルは未予約の候補<br>TDAC <a class="x" href="https://tdac.immigration.go.th" target="_blank">入国カード</a> 到着3日前〜・クラブ20歳〜・パスポート原本</small></p>
+<div class="cr">背景: <a href="https://commons.wikimedia.org/wiki/File:Chao_Phraya_River_from_Iconsiam_at_night,_Bangkok.jpg" target="_blank">Slyronit</a> / CC BY-SA 4.0</div></details></div></section>`;h=ov+h;
+MEM.forEach(m=>{const L=(P.personal||{})[m]||[];h+=`<section class="s"><div class="in glass"><div class="ttl">${m}</div>
+<div class="bx"><div class="big">約${th(Math.round(T.per[m]))} <small>≈ ${yen(T.per[m])}</small></div></div>`;
 L.forEach((x,i)=>{h+=`<div class="b" onclick="per('${m}',${i})"><span>${esc(x.name)}${sp(x)}</span><b>${th(x.c)}</b><span class="pen">✎</span></div>`});
-if(!L.length)h+=`<p><small>まだありません。下のボタンで追加（割り勘する項目は3人で分けて計算）</small></p>`;
-h+=`<button class="btn" onclick="per('${m}',-1)">＋ 支出を追加</button>${WAL}</div></section>`});
-W.innerHTML=h;const L=['概要',...ORD.map(i=>'D'+i),...MEM];
+h+=`<button class="btn" onclick="per('${m}',-1)">＋ 追加</button></div></section>`});
+W.innerHTML=h;tick();const L=['概要',...ORD.map(i=>'D'+i),...MEM];
 document.getElementById('nav').innerHTML=L.map((l,i)=>`<button class="${i>0&&i<=ORD.length&&PS[ORD[i-1]]?'pt':''}" onclick="go(${i})">${l}</button>`).join('');document.getElementById('dots').innerHTML='<i></i>'.repeat(L.length);W.scrollLeft=keep;on()}
 function go(i){W.scrollTo({left:i*W.clientWidth,behavior:'smooth'})}
 function on(){const i=Math.round(W.scrollLeft/W.clientWidth);document.querySelectorAll('nav button').forEach((e,j)=>{e.classList.toggle('on',j==i);if(j==i)e.scrollIntoView({inline:'nearest',block:'nearest'})});document.querySelectorAll('.dots i').forEach((e,j)=>e.classList.toggle('on',j==i))}
@@ -139,7 +158,9 @@ function ext(i){const x=i<0?{name:'',c:0}:P.extra[i];S.innerHTML=`<div class="tt
 <div class="acts">${i<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
 $('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0,s:$('#f_s').value=='1',p:$('#f_p').value};i<0?P.extra.push(n):P.extra[i]=n;save()};if(i>=0)$('#b_del').onclick=()=>{P.extra.splice(i,1);save()}}
 function rate(){S.innerHTML=`<div class="ttl">レート</div><label>1฿ = ¥</label><input id="f_r" type="number" step="0.01" value="${P.rate}"><div class="acts"><button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');$('#b_ok').onclick=()=>{P.rate=+$('#f_r').value||P.rate;save()}}
-async function save(){let k=localStorage.getItem('tp_key');if(!k){k=prompt('編集用の共有パスワード');if(!k){toast('パスワードが必要です',1);return}}
+function askKey(){return new Promise(res=>{const d=document.createElement('div');d.className='pw';d.innerHTML=`<div class="glass"><div class="k">編集パスワード（共有）</div><input type="password" id="pw_i" autocomplete="current-password"><small>一度保存すればこの端末では次から不要</small><div class="acts"><button class="cn">取消</button><button class="ok">OK</button></div></div>`;document.body.appendChild(d);
+const i=d.querySelector('input'),f=v=>{d.remove();res(v)};i.focus();d.querySelector('.cn').onclick=()=>f('');d.querySelector('.ok').onclick=()=>f(i.value.trim());i.onkeydown=e=>{if(e.key=='Enter')f(i.value.trim())}})}
+async function save(){let k=localStorage.getItem('tp_key');if(!k){k=await askKey();if(!k){toast('パスワードが必要です',1);return}}
 try{const r=await fetch('/api/plan',{method:'PUT',headers:{'content-type':'application/json','x-edit-key':k},body:JSON.stringify(P)});
 if(r.status==401){localStorage.removeItem('tp_key');throw Error('パスワードが違います')}if(!r.ok)throw Error('HTTP '+r.status);
 localStorage.setItem('tp_key',k);close_();render();toast('保存しました')}catch(e){toast('保存失敗：'+e.message,1);load(true)}}
