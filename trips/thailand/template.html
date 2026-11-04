@@ -134,6 +134,7 @@ const ov=`<section class="s"><div class="in glass ov"><div id="cd">${cdH()}</div
 <div class="st">${A.g?(A.tr.length?A.tr.map(t=>`${t[0]} → ${t[1]} <b>${th(Math.round(t[2]))}</b>`).join('<br>'):'精算なし（差額0）'):'まだ記録なし・各自カードの「＋ 追加」で入力'}</div></div>
 <div class="fl1">✈ 行き 11/22 NRT 18:30 → BKK 23:55<br>✈ 帰り 11/28 DMK 23:55 → NRT 08:00</div>
 <div class="ht">BKK <a class="x" href="${map(M)}" target="_blank">メトロポール</a> <span class="tag bk">11/22–24 予約済み</span> <span class="tag mi">11/26–28 未定</span> · PTY <a class="x" href="${map('March Hotel Pattaya 323/9 Moo 9 Nongprue')}" target="_blank">マーチ</a> <span class="tag mi">未定</span></div>
+<div class="stayb">${(P.stays||[]).map(s=>`<div class="b"><span>${esc(s.d)} ${esc(s.h)}</span><span>${esc(s.r)}</span><b>${esc(s.s)}</b></div>`).join('')}</div>
 <a class="wl" href="https://walica.jp/group/01M6DMSTVSD5AKZDK68FS8JGV6" target="_blank">割り勘 walica ↗</a>
 <details class="dt"><summary>詳細</summary>
 <p><small>割り勘分 約${th(T.sp)}（1人 ${th(Math.round(T.sp/P.people))}）／1人 = 各自分 ＋ 割り勘分÷${P.people}</small></p>
