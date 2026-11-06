@@ -133,14 +133,14 @@ const ov=`<section class="s"><div class="in glass ov"><div id="cd">${cdH()}</div
 <div class="pm">${MEM.map(m=>`<div onclick="go(${P.days.length+1+MEM.indexOf(m)})"><span>${m}</span><b>${th(Math.round(A.use[m]))}</b><small>立替 ${th(Math.round(A.paid[m]))}</small></div>`).join('')}</div>
 <div class="st">${A.g?(A.tr.length?A.tr.map(t=>`${t[0]} → ${t[1]} <b>${th(Math.round(t[2]))}</b>`).join('<br>'):'精算なし（差額0）'):'まだ記録なし・各自カードの「＋ 追加」で入力'}</div></div>
 <div class="fl1">✈ 行き 11/22 NRT 18:30 → BKK 23:55<br>✈ 帰り 11/28 DMK 23:55 → NRT 08:00</div>
-<div class="ht">BKK <a class="x" href="${map(M)}" target="_blank">メトロポール</a> <span class="tag bk">11/22–23泊 予約済み</span> <span class="tag mi">11/24泊 未定</span> · PTY <a class="x" href="${map('March Hotel Pattaya 323/9 Moo 9 Nongprue')}" target="_blank">マーチ</a> <span class="tag bk">11/25–26泊 予約済み</span> <span class="tag mi">11/27泊 未定</span></div>
+<div class="ht">BKK <a class="x" href="${map(M)}" target="_blank">メトロポール</a> <span class="tag bk">11/22–24泊 予約済み</span> · PTY <a class="x" href="${map('March Hotel Pattaya 323/9 Moo 9 Nongprue')}" target="_blank">マーチ</a> <span class="tag bk">11/25–26泊 予約済み</span> <span class="tag mi">11/27泊 未定</span></div>
 <div class="stayb">${(P.stays||[]).map(s=>`<div class="b"><span>${esc(s.d)} ${esc(s.h)}</span><span>${esc(s.r)}</span><b>${esc(s.s)}</b></div>`).join('')}</div>
 <a class="wl" href="https://walica.jp/group/01M6DMSTVSD5AKZDK68FS8JGV6" target="_blank">割り勘 walica ↗</a>
 <details class="dt"><summary>詳細</summary>
 <p><small>割り勘分 約${th(T.sp)}（1人 ${th(Math.round(T.sp/P.people))}）／1人 = 各自分 ＋ 割り勘分÷${P.people}</small></p>
 ${lines.join('')}<div class="b"><span>航空券（3人）</span><b>${esc(P.flight||'¥78,970')}</b><span></span></div>
 <div class="row2"><button class="add2" onclick="ext(-1)">＋ 予算項目</button><button class="add2" onclick="rate()">レート ¥${P.rate}</button></div>
-<p><small>ルート：BKK 11/22–25 → パタヤ 11/25–28（仮）／予約済み：メトロポール 11/22–24（標準ツイン×1室・食事なし）・マーチ 11/25–27（城景豪華キング×1室・食事なし）／未予約：11/24泊・11/27泊<br>TDAC <a class="x" href="https://tdac.immigration.go.th" target="_blank">入国カード</a> 到着3日前〜・クラブ20歳〜・パスポート原本</small></p>
+<p><small>ルート：BKK 11/22–25 → パタヤ 11/25–28（仮）／予約済み：メトロポール 11/22–25（標準ツイン×1室・食事なし）・マーチ 11/25–27（城景豪華キング×1室・食事なし）／未予約：11/27泊<br>TDAC <a class="x" href="https://tdac.immigration.go.th" target="_blank">入国カード</a> 到着3日前〜・クラブ20歳〜・パスポート原本</small></p>
 <div class="cr">背景: <a href="https://commons.wikimedia.org/wiki/File:Chao_Phraya_River_from_Iconsiam_at_night,_Bangkok.jpg" target="_blank">Slyronit</a> / CC BY-SA 4.0</div></details></div></section>`;h=ov+h;
 MEM.forEach(m=>{const L=(P.personal||{})[m]||[];h+=`<section class="s"><div class="in glass"><div class="ttl">${m}</div>
 <div class="bx"><div class="k">実際 <small>負担額</small></div><div class="big">${th(Math.round(A.use[m]))} <small>≈ ${yen(A.use[m])}</small></div><small>立替 ${th(Math.round(A.paid[m]))}・見積 約${th(Math.round(T.per[m]))}</small></div>`;
