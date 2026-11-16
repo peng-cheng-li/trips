@@ -152,7 +152,9 @@ S.innerHTML=`<div class="ttl">${m} · ${i<0?'追加':'編集'}</div><label>項�
 <div class="acts">${i<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
 const seg=$('#f_seg'),ch=$('#f_chips'),wb=$('#f_who');const paint=()=>{seg.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v==sm));ch.querySelectorAll('button').forEach(b=>b.classList.toggle('on',who.has(b.dataset.m)));wb.style.display=sm=='1'?'':'none'};
 seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{sm=b.dataset.v;paint()});ch.querySelectorAll('button').forEach(b=>b.onclick=()=>{const mm=b.dataset.m;if(who.has(mm)){if(who.size>1)who.delete(mm)}else who.add(mm);paint()});paint();
-$('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0,s:sm=='1'};if(n.s&&who.size<MEM.length)n.w=MEM.filter(mm=>who.has(mm));i<0?L.push(n):L[i]=n;save()};if(i>=0)$('#b_del').onclick=()=>{L.splice(i,1);save()}}
+$('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0,s:sm=='1'};if(n.s&&who.size<MEM.length)n.w=MEM.filter(mm=>who.has(mm));i<0?L.push(n):L[i]=n;savePer(m)};if(i>=0)$('#b_del').onclick=()=>{L.splice(i,1);savePer(m)}}
+async function savePer(m){try{const r=await fetch('/api/personal',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({member:m,list:(P.personal||{})[m]||[]})});
+if(!r.ok)throw Error('HTTP '+r.status);const j=await r.json();if(j&&j.days)P=j;close_();render();toast('保存しました')}catch(e){toast('保存失敗：'+e.message,1);load(true)}}
 // 時刻: 出発/帰国はJST固定の絶対時刻、日付の切替（終了判定・Day N）はタイ時間(UTC+7)。端末のタイムゾーンに依存しない。
 const QN=new URLSearchParams(location.search).get('now');function pq(q){q=String(q||'').replace(/(\d) (\d\d:\d\d)$/,'$1+$2');const m=q.match(/^(\d{4})-(\d\d)-(\d\d)(?:[T ](\d\d):(\d\d)(?::(\d\d))?)?(Z|[+-]\d\d:?\d\d)?$/);if(!m)return NaN;let o=9*60;if(m[7]){o=m[7]=='Z'?0:(m[7][0]=='-'?-1:1)*(+m[7].slice(1,3)*60+ +m[7].slice(-2))}return Date.UTC(+m[1],m[2]-1,+m[3],+(m[4]||0),+(m[5]||0),+(m[6]||0))-o*6e4}
 const QT=pq(QN);const NOW=()=>new Date(isFinite(QT)?QT:Date.now());
