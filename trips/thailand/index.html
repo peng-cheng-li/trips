@@ -88,6 +88,10 @@ nav#tabbar button:active{background:var(--ovp)}
 .day{scroll-margin-top:64px}
 .day.past{opacity:.66}
 .dhd{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.wx{display:flex;align-items:center;gap:6px;color:var(--mut);font-size:.85rem;margin:2px 0 8px}
+.wx b{color:var(--tx);font-weight:600}
+.wxi{display:inline-flex}.wxi svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.b .wxi svg{vertical-align:-4px}
 .dk{font-size:.72rem;letter-spacing:.12em;color:var(--mut);font-weight:600}
 .dt2{font-size:1.32rem;font-weight:600;letter-spacing:-.01em;line-height:1.3;color:var(--ink)}
 .nextup{border:1px solid var(--line2)}
@@ -178,9 +182,21 @@ function dayRows(di){const d=P.days[di];let tot=0,h='';d.rows.forEach((r,ri)=>{t
 h+=`<div class="q"><div class="t">${esc(r.tm||'—')}</div><div class="d"></div><div class="c"><b>${esc(r.name)}</b>${r.q?` <a class="x" href="${map(r.q)}" target="_blank">地図</a>`:''}${info}<small>${esc(r.note||'')}</small></div><button class="ed" onclick="row(${di},${ri})">✎</button></div>`});return[h,tot]}
 function stayChip(di){const x=dd(P.days[di]);if(!x||!P.stays)return'';const s=P.stays.find(s=>{const m=String(s.d).match(/(\d+)\/(\d+)/);return m&&+m[1]==x[0]&&+m[2]==x[1]});if(!s)return'';const cls=s.s.includes('予約済み')?'bk':(s.s.includes('未')?'mi':'');return `<span class="tag ${cls}">宿：${esc(s.h)}</span>`}
 function dayHTML(di){const d=P.days[di],PS=past(d);const[tl,tot]=dayRows(di);
-let h=`<article class="card day${PS?' past':''}" id="day-${di}"><div class="dhd"><div><div class="dk">DAY ${di} · ${esc(d.d)}${PS?' · 終了':''}</div><div class="dt2">${esc(d.t)}</div></div>${stayChip(di)}</div><div class="tl">${tl}</div><button class="add" onclick="row(${di},-1)">＋ 追加</button>`;
+let h=`<article class="card day${PS?' past':''}" id="day-${di}"><div class="dhd"><div><div class="dk">DAY ${di} · ${esc(d.d)}${PS?' · 終了':''}</div><div class="dt2">${esc(d.t)}</div></div>${stayChip(di)}</div>${wxLine(di)}<div class="tl">${tl}</div><button class="add" onclick="row(${di},-1)">＋ 追加</button>`;
 if(d.clubs&&d.clubs.length){h+=`<h3>おすすめクラブ3選</h3>`;d.clubs.forEach((c,ci)=>{h+=`<div class="cl"><div><a class="x" href="${map(c.q)}" target="_blank">${esc(c.name)}</a>${c.hours?` <span class="hr">${esc(c.hours)}</span>`:''}<small>${esc(c.note)}</small><small>${esc(c.price)}</small></div><button class="ed" onclick="club(${di},${ci})">✎</button></div>`});h+=`<button class="add" onclick="club(${di},-1)">＋ クラブ追加</button>`}
 h+=`<div class="sub">当日小計 約${th(tot)}/人 ≈ ${yen(tot)}</div></article>`;return h}
+let WX={},WX_DONE=false;
+const WXI={sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>',cloud:'<svg viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>',rain:'<svg viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6M8 14v6M12 16v6"/></svg>',storm:'<svg viewBox="0 0 24 24"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg>'};
+function wxKind(c){if(c==0)return['sun','晴れ'];if(c==1||c==2)return['sun','晴れ時々曇り'];if(c==3||c==45||c==48)return['cloud','曇り'];if(c>=95)return['storm','雷雨'];return['rain','雨']}
+function wxCity(di){const x=dd(P.days[di]);if(!x)return'BKK';const md=x[0]*100+x[1];return md<=1124?'BKK':md<=1127?'PTY':'BKK'}
+function wxISO(di){const x=dd(P.days[di]);return '2026-'+String(x[0]).padStart(2,'0')+'-'+String(x[1]).padStart(2,'0')}
+function wxGet(di){return WX[wxCity(di)+wxISO(di)]}
+function wxLine(di){const w=wxGet(di);if(!w)return'';const[k,lb]=wxKind(w.c);return `<div class="wx"><span class="wxi">${WXI[k]}</span><span>${wxCity(di)=='BKK'?'バンコク':'パタヤ'} ${lb}</span><span><b>${Math.round(w.hi)}°</b> / ${Math.round(w.lo)}°</span>${w.pp!=null?`<span>降水確率 ${w.pp}%</span>`:''}</div>`}
+function wxCard(){if(!Object.keys(WX).length)return WX_DONE?'':`<div class="card"><h2>天気</h2><small>取得中…</small></div>`;
+return `<div class="card"><h2>天気（11/22–28）</h2>${P.days.map((d,di)=>{const w=wxGet(di);if(!w)return'';const[k,lb]=wxKind(w.c);return `<div class="b"><span>${esc(d.d)} ${wxCity(di)=='BKK'?'バンコク':'パタヤ'}</span><span><span class="wxi">${WXI[k]}</span> ${lb}${w.pp!=null?' '+w.pp+'%':''}</span><b>${Math.round(w.hi)}°/${Math.round(w.lo)}°</b></div>`}).join('')}</div>`}
+async function fetchWX(){const CT={BKK:[13.7563,100.5018],PTY:[12.9236,100.8825]};
+for(const c of['BKK','PTY']){try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${CT[c][0]}&longitude=${CT[c][1]}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FBangkok&start_date=2026-11-22&end_date=2026-11-28`);const j=await r.json();const D=j&&j.daily;if(D)D.time.forEach((t,i)=>{WX[c+t]={c:D.weather_code[i],hi:D.temperature_2m_max[i],lo:D.temperature_2m_min[i],pp:D.precipitation_probability_max[i]}})}catch(e){}}
+WX_DONE=true;render()}
 const bkk=()=>new Date(+NOW()+7*36e5);
 function todayIdx(){const b=bkk();return P.days.findIndex(d=>{const x=dd(d);return x&&x[0]==b.getUTCMonth()+1&&x[1]==b.getUTCDate()})}
 function nextUp(){const n=+NOW();if(n<DEP)return{tm:'18:30',name:'VZ833 出発',note:'成田 第2ターミナル 18:30 → BKK 23:55着',q:'Narita Airport Terminal 2',when:'11/22'};
@@ -199,6 +215,8 @@ if(up)h+=`<div class="card nextup"><div class="k">NEXT${up.when?' · '+esc(up.wh
 else if(n>=RET)h+=`<div class="card"><div class="ttl">お疲れさまでした</div><p><small>精算は「お金」タブで確認できます。</small></p></div>`;
 if(ti>=0)h+=`<div class="card"><h2>今日のプラン</h2><div class="ttl">${esc(P.days[ti].d)}<small> ${esc(P.days[ti].t)}</small></div>${dayRows(ti)[0]}<button class="btn" onclick="jumpDay(${ti})">この日をプランで開く</button></div>`;
 h+=flightsCard();
+h+=`<a class="card" href="https://pp-thai.logipab.workers.dev/" target="_blank" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit"><div style="flex:1"><div class="ttl">タイ語アシスタント</div><small>フレーズ・音声翻訳・お酒ゲーム</small></div><span style="color:var(--mut);font-size:1.4rem;line-height:1">›</span></a>`;
+h+=wxCard();
 if(n<DEP){const L=P.prep||[],st=PST(),dn=L.filter(x=>st[PH(x.t)]).length;h+=`<div class="card" onclick="tab('prep')" style="cursor:pointer"><h2>準備</h2><div class="pbar"><i style="width:${L.length?Math.round(dn/L.length*100):0}%"></i></div><small>${dn} / ${L.length} 完了 · タップで開く</small></div>`}
 h+=`<div class="card"><h2>宿泊一覧</h2>${(P.stays||[]).map(s=>`<div class="b"><span>${esc(s.d)} ${esc(s.h)}</span><span>${esc(s.r)}</span><span class="tag ${s.s.includes('予約済み')?'bk':(s.s.includes('未')?'mi':'')}">${esc(s.s)}</span></div>`).join('')}</div>`;return h}
 function planHTML(){let h=`<div class="strip">${P.days.map((d,i)=>{const x=dd(d);return `<button data-d="${i}" class="${past(d)?'pt':''}" onclick="jumpDay(${i})">${x?x[1]+'日':'D'+i}</button>`}).join('')}</div>`;P.days.forEach((d,i)=>h+=dayHTML(i));return h+estHTML()}
@@ -260,7 +278,7 @@ MN.addEventListener('scroll',()=>requestAnimationFrame(spy));
 render();
 const h0=location.hash.slice(1),dm=h0.match(/^day-(\d+)$/);
 if(dm)jumpDay(+dm[1]);else if(['plan','money','prep'].indexOf(h0)>=0)tab(h0,true);else tab('today',true);
-if(location.protocol!='file:'){load();fetchRate()}
+if(location.protocol!='file:'){load();fetchRate();fetchWX()}
 </script>
 </body>
 </html>
