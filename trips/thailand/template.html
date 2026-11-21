@@ -133,8 +133,11 @@ nav#tabbar button:active{background:var(--ovp)}
 const DEF=__PLAN__;let P=JSON.parse(JSON.stringify(DEF)),E=false;
 const W=document.getElementById('w'),S=document.getElementById('sheet'),$=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let RATE=+P.rate||4.67,RATE_LIVE=false;
-const yen=b=>'¥'+(Math.round(b*RATE/100)*100).toLocaleString(),th=b=>'฿'+Number(b).toLocaleString();
+let RJ=+P.rate||4.67,RC=+P.rateC||0.219,FX_LIVE=false,FX_DATE='';
+const yen=b=>'¥'+(Math.round(b*RJ/100)*100).toLocaleString(),th=b=>'฿'+Number(b).toLocaleString();
+const cny=b=>{const v=b*RC;return '元'+(v>=100?Math.round(v).toLocaleString():(Math.round(v*10)/10).toLocaleString())};
+const fxSrc=()=>FX_LIVE?'（今日のレート・自動取得）':'（保存されたレート）';
+function fxCard(){return `<div class="card"><h2>本日のレート</h2><div class="b"><span>1฿</span><b>¥${RJ.toFixed(2)}</b><span></span></div><div class="b"><span>1฿</span><b>元${RC.toFixed(4)}</b><span></span></div><div class="b"><span>1元</span><b>¥${(RJ/RC).toFixed(1)}</b><span></span></div><p><small>${FX_DATE?FX_DATE+' 更新 · ':''}出典：open.er-api.com（開くたび自動取得）${FX_LIVE?'':' · 現在は保存されたレート'}</small></p></div>`}
 const map=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
 const M='Metropole Bangkok Tribute Portfolio Hotel',WAL='<a class="btn" href="https://walica.jp/group/01M6DMSTVSD5AKZDK68FS8JGV6" target="_blank">割り勘（walica）</a>';
 const MEM=['Hiro','Fujisaki','Li'];const on_=x=>x.s!==false;
@@ -153,10 +156,11 @@ MEM.forEach(m=>per[m]+=spl/P.people);return{per,sp:spl,g:Object.values(per).redu
 const swSel=(x,lbl)=>`<label>割り勘</label><select id="f_s"><option value="1" ${on_(x)?'selected':''}>割り勘する（${P.people}人で分ける）</option><option value="0" ${on_(x)?'':'selected'}>しない（${lbl}）</option></select>`;
 function per(m,i){P.personal=P.personal||{};const L=P.personal[m]=P.personal[m]||[];const x=i<0?{name:'',c:0,s:true}:L[i];
 let sm=on_(x)?'1':'0';const who=new Set(x.w&&x.w.length?x.w:MEM);
-S.innerHTML=`<div class="ttl">${m} · ${i<0?'追加':'編集'}</div><label>項目</label><input id="f_name" value="${esc(x.name)}"><label>金額 ฿</label><input id="f_c" type="number" inputmode="numeric" value="${+x.c||0}"><label>割り勘</label><div class="seg" id="f_seg"><button type="button" data-v="1">割り勘する</button><button type="button" data-v="0">${m}だけ</button></div><div id="f_who"><label>分ける相手（タップで切替）</label><div class="mchips" id="f_chips">${MEM.map(mm=>`<button type="button" data-m="${mm}">${mm}</button>`).join('')}</div></div>
+S.innerHTML=`<div class="ttl">${m} · ${i<0?'追加':'編集'}</div><label>項目</label><input id="f_name" value="${esc(x.name)}"><label>金額 ฿</label><input id="f_c" type="number" inputmode="numeric" value="${+x.c||0}"><div id="f_hint" style="margin-top:4px"></div><label>割り勘</label><div class="seg" id="f_seg"><button type="button" data-v="1">割り勘する</button><button type="button" data-v="0">${m}だけ</button></div><div id="f_who"><label>分ける相手（タップで切替）</label><div class="mchips" id="f_chips">${MEM.map(mm=>`<button type="button" data-m="${mm}">${mm}</button>`).join('')}</div></div>
 <div class="acts">${i<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
 const seg=$('#f_seg'),ch=$('#f_chips'),wb=$('#f_who');const paint=()=>{seg.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v==sm));ch.querySelectorAll('button').forEach(b=>b.classList.toggle('on',who.has(b.dataset.m)));wb.style.display=sm=='1'?'':'none'};
 seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{sm=b.dataset.v;paint()});ch.querySelectorAll('button').forEach(b=>b.onclick=()=>{const mm=b.dataset.m;if(who.has(mm)){if(who.size>1)who.delete(mm)}else who.add(mm);paint()});paint();
+const hint=()=>{const v=+$('#f_c').value||0;$('#f_hint').innerHTML=v?`<small>≈ ¥${Math.round(v*RJ).toLocaleString()} · ${cny(v)}</small>`:''};$('#f_c').oninput=hint;hint();
 $('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0,s:sm=='1'};if(n.s&&who.size<MEM.length)n.w=MEM.filter(mm=>who.has(mm));i<0?L.push(n):L[i]=n;savePer(m)};if(i>=0)$('#b_del').onclick=()=>{L.splice(i,1);savePer(m)}}
 async function savePer(m){try{const r=await fetch('/api/personal',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({member:m,list:(P.personal||{})[m]||[]})});
 if(!r.ok)throw Error('HTTP '+r.status);const j=await r.json();if(j&&j.days)P=j;close_();render();toast('保存しました')}catch(e){toast('保存失敗：'+e.message,1);load(true)}}
@@ -184,7 +188,7 @@ function stayChip(di){const x=dd(P.days[di]);if(!x||!P.stays)return'';const s=P.
 function dayHTML(di){const d=P.days[di],PS=past(d);const[tl,tot]=dayRows(di);
 let h=`<article class="card day${PS?' past':''}" id="day-${di}"><div class="dhd"><div><div class="dk">DAY ${di} · ${esc(d.d)}${PS?' · 終了':''}</div><div class="dt2">${esc(d.t)}</div></div>${stayChip(di)}</div>${wxLine(di)}<div class="tl">${tl}</div><button class="add" onclick="row(${di},-1)">＋ 追加</button>`;
 if(d.clubs&&d.clubs.length){h+=`<h3>おすすめクラブ3選</h3>`;d.clubs.forEach((c,ci)=>{h+=`<div class="cl"><div><a class="x" href="${map(c.q)}" target="_blank">${esc(c.name)}</a>${c.hours?` <span class="hr">${esc(c.hours)}</span>`:''}<small>${esc(c.note)}</small><small>${esc(c.price)}</small></div><button class="ed" onclick="club(${di},${ci})">✎</button></div>`});h+=`<button class="add" onclick="club(${di},-1)">＋ クラブ追加</button>`}
-h+=`<div class="sub">当日小計 約${th(tot)}/人 ≈ ${yen(tot)}</div></article>`;return h}
+h+=`<div class="sub">当日小計 約${th(tot)}/人 ≈ ${yen(tot)} · ${cny(tot)}</div></article>`;return h}
 let WX={},WX_DONE=false;
 const WXI={sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>',cloud:'<svg viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>',rain:'<svg viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6M8 14v6M12 16v6"/></svg>',storm:'<svg viewBox="0 0 24 24"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg>'};
 function wxKind(c){if(c==0)return['sun','晴れ'];if(c==1||c==2)return['sun','晴れ時々曇り'];if(c==3||c==45||c==48)return['cloud','曇り'];if(c>=95)return['storm','雷雨'];return['rain','雨']}
@@ -223,10 +227,11 @@ function planHTML(){let h=`<div class="strip">${P.days.map((d,i)=>{const x=dd(d)
 function estHTML(){const T=calc();const cat={};P.days.forEach(d=>d.rows.forEach(r=>{const k=r.k||'その他';cat[k]=(cat[k]||0)+(+r.c||0)*(on_(r)?P.people:1)}));
 const lines=[];let tot=0;Object.entries(cat).forEach(([k,v])=>{if(!P.extra.some(x=>x.name==k)){lines.push(`<div class="b"><span>${esc(k)}</span><b>約${th(v)}</b><span></span></div>`);tot+=v}});
 P.extra.forEach((x,i)=>{tot+=+x.c||0;lines.push(`<div class="b"><span>${/宿泊|ホテル/.test(x.name)?(x.name.includes('予約済み')?'<span class="tag bk">予約済み</span> ':'<span class="tag mi">未定</span> '):''}${esc(x.name)}${sp(x)}</span><b>約${th(x.c)}</b><button class="ed" onclick="ext(${i})">✎</button></div>`)});
-return `<div class="card"><h2>見積（出発前プラン）</h2><div class="big">約${th(T.g)} <small>≈ ${yen(T.g)} · 航空券別</small></div><div class="pm">${MEM.map(m=>`<div><span>${m}</span><b>${th(Math.round(T.per[m]))}</b><small>${yen(T.per[m])}</small></div>`).join('')}</div><p><small>割り勘分 約${th(T.sp)}（1人 ${th(Math.round(T.sp/P.people))}）／1人 = 各自分 ＋ 割り勘分÷${P.people}</small></p><p><small>換算レート 1฿ ≈ ¥${RATE.toFixed(2)}${RATE_LIVE?'（今日のレート・自動取得）':'（保存されたレート）'}</small></p>${lines.join('')}<div class="b"><span>航空券（3人）</span><b>${esc(P.flight||'¥78,970')}</b><span></span></div><div class="row2 eonly" style="gap:8px;margin-top:10px"><button class="add2" onclick="ext(-1)">＋ 予算項目</button><button class="add2" onclick="rate()">レート ¥${RATE.toFixed(2)}${RATE_LIVE?'・自動':''}</button></div></div>`}
+return `<div class="card"><h2>見積（出発前プラン）</h2><div class="big">約${th(T.g)} <small>≈ ${yen(T.g)} · ${cny(T.g)} · 航空券別</small></div><div class="pm">${MEM.map(m=>`<div><span>${m}</span><b>${th(Math.round(T.per[m]))}</b><small>${yen(T.per[m])} · ${cny(T.per[m])}</small></div>`).join('')}</div><p><small>割り勘分 約${th(T.sp)}（1人 ${th(Math.round(T.sp/P.people))}）／1人 = 各自分 ＋ 割り勘分÷${P.people}</small></p><p><small>換算レート 1฿ ≈ ¥${RJ.toFixed(2)} · 元${RC.toFixed(4)}${fxSrc()}</small></p>${lines.join('')}<div class="b"><span>航空券（3人）</span><b>${esc(P.flight||'¥78,970')}</b><span></span></div><div class="row2 eonly" style="gap:8px;margin-top:10px"><button class="add2" onclick="ext(-1)">＋ 予算項目</button><button class="add2" onclick="rate()">レート ¥${RJ.toFixed(2)}${FX_LIVE?'・自動':''}</button></div></div>`}
 function moneyHTML(){const A=act();
-let h=`<div class="card"><h2>精算</h2>${A.g?`<div class="settle">${A.tr.length?A.tr.map(t=>`${esc(t[0])} → ${esc(t[1])} <b>${th(Math.round(t[2]))}</b>`).join('<br>'):'差額なし・精算不要'}</div><small>実際に記録した支出から計算</small>`:`<p><small>まだ支出の記録がありません。下のメンバー欄か、プランの項目に「実際」を入れると精算が自動で計算されます。</small></p>`}${WAL}</div>`;
-h+=`<div class="card"><h2>実際 · 3人の収支</h2><div class="big">${th(Math.round(A.g))} <small>≈ ${yen(A.g)}</small></div>${MEM.map(m=>{const bal=A.paid[m]-A.use[m];return `<div class="balrow"><span class="bn">${m}</span><span class="${bal>.5?'pos':bal<-.5?'neg':''}">${bal>.5?'+':''}${th(Math.round(bal))}</span><span class="bd"><small>負担 ${th(Math.round(A.use[m]))} · 立替 ${th(Math.round(A.paid[m]))}</small></span></div>`}).join('')}<p style="margin-top:10px"><small>換算レート 1฿ ≈ ¥${RATE.toFixed(2)}${RATE_LIVE?'（今日のレート・自動取得）':'（保存されたレート）'}</small></p></div>`;
+let h=`<div class="card"><h2>精算</h2>${A.g?`<div class="settle">${A.tr.length?A.tr.map(t=>`${esc(t[0])} → ${esc(t[1])} <b>${th(Math.round(t[2]))}</b> <small>≈ ${yen(t[2])} · ${cny(t[2])}</small>`).join('<br>'):'差額なし・精算不要'}</div><small>実際に記録した支出から計算</small>`:`<p><small>まだ支出の記録がありません。下のメンバー欄か、プランの項目に「実際」を入れると精算が自動で計算されます。</small></p>`}${WAL}</div>`;
+h+=fxCard();
+h+=`<div class="card"><h2>実際 · 3人の収支</h2><div class="big">${th(Math.round(A.g))} <small>≈ ${yen(A.g)} · ${cny(A.g)}</small></div>${MEM.map(m=>{const bal=A.paid[m]-A.use[m];return `<div class="balrow"><span class="bn">${m}</span><span class="${bal>.5?'pos':bal<-.5?'neg':''}">${bal>.5?'+':''}${th(Math.round(bal))}</span><span class="bd"><small>負担 ${th(Math.round(A.use[m]))} · 立替 ${th(Math.round(A.paid[m]))}</small></span></div>`}).join('')}</div>`;
 MEM.forEach(m=>{const L=(P.personal||{})[m]||[];h+=`<div class="card"><h2>${m} の支出</h2>`;L.forEach((x,i)=>{h+=`<div class="b" onclick="per('${m}',${i})"><span>${esc(x.name)}${sp(x)}</span><b>${th(x.c)}</b><span class="pen">✎</span></div>`});if(!L.length)h+=`<p><small>まだ記録なし</small></p>`;h+=`<button class="btn" onclick="per('${m}',-1)">＋ ${m} の支出を追加</button></div>`});
 return h}
 function prepBody(){const L=P.prep||[],st=PST(),dn=L.filter(x=>st[PH(x.t)]).length;
@@ -263,22 +268,25 @@ $('#b_ok').onclick=()=>{const n={name:$('#f_name').value,note:$('#f_note').value
 function ext(i){const x=i<0?{name:'',c:0}:P.extra[i];S.innerHTML=`<div class="ttl">予算項目</div><label>名称</label><input id="f_name" value="${esc(x.name)}"><label>金額 ฿（${P.people}人合計）</label><input id="f_c" type="number" inputmode="numeric" value="${+x.c||0}">${swSel(x,'支払者のみ')}<label>支払者（しない場合）</label><select id="f_p">${['',...MEM].map(m=>`<option value="${m}" ${m==(x.p||'')?'selected':''}>${m||'3人で各自'}</option>`).join('')}</select>
 <div class="acts">${i<0?'':'<button class="del" id="b_del">削除</button>'}<button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');
 $('#b_ok').onclick=()=>{const n={name:$('#f_name').value,c:+$('#f_c').value||0,s:$('#f_s').value=='1',p:$('#f_p').value};i<0?P.extra.push(n):P.extra[i]=n;save()};if(i>=0)$('#b_del').onclick=()=>{P.extra.splice(i,1);save()}}
-function rate(){S.innerHTML=`<div class="ttl">レート</div><label>1฿ = ¥（自動取得できない時の予備レート）</label><input id="f_r" type="number" step="0.01" value="${P.rate}"><div class="acts"><button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');$('#b_ok').onclick=()=>{P.rate=+$('#f_r').value||P.rate;if(!RATE_LIVE)RATE=P.rate;save()}}
+function rate(){S.innerHTML=`<div class="ttl">レート</div><label>予備レート 1฿ = ¥（自動取得できない時）</label><input id="f_r" type="number" step="0.01" value="${P.rate}"><label>予備レート 1฿ = 元</label><input id="f_rc" type="number" step="0.0001" value="${P.rateC||0.219}"><div class="acts"><button class="cn" onclick="close_()">閉じる</button><button class="ok" id="b_ok">保存</button></div>`;S.classList.add('open');$('#b_ok').onclick=()=>{P.rate=+$('#f_r').value||P.rate;P.rateC=+$('#f_rc').value||P.rateC;if(!FX_LIVE){RJ=P.rate;RC=+P.rateC||RC}save()}}
 function askKey(){return new Promise(res=>{const d=document.createElement('div');d.className='pw';d.innerHTML=`<div class="glass"><div class="k">編集パスワード（共有）</div><input type="password" id="pw_i" autocomplete="current-password"><small>一度保存すればこの端末では次から不要</small><div class="acts"><button class="cn">取消</button><button class="ok">OK</button></div></div>`;document.body.appendChild(d);
 const i=d.querySelector('input'),f=v=>{d.remove();res(v)};i.focus();d.querySelector('.cn').onclick=()=>f('');d.querySelector('.ok').onclick=()=>f(i.value.trim());i.onkeydown=e=>{if(e.key=='Enter')f(i.value.trim())}})}
 async function save(){let k=localStorage.getItem('tp_key');if(!k){k=await askKey();if(!k){toast('パスワードが必要です',1);return}}
 try{const r=await fetch('/api/plan',{method:'PUT',headers:{'content-type':'application/json','x-edit-key':k},body:JSON.stringify(P)});
 if(r.status==401){localStorage.removeItem('tp_key');throw Error('パスワードが違います')}if(!r.ok)throw Error('HTTP '+r.status);
 localStorage.setItem('tp_key',k);close_();render();toast('保存しました')}catch(e){toast('保存失敗：'+e.message,1);load(true)}}
-async function load(q){try{const r=await fetch('/api/plan',{cache:'no-store'});if(r.ok){const j=await r.json();if(j&&j.days){P=j;if(!RATE_LIVE)RATE=+P.rate||RATE}}}catch(e){if(!q)toast('オフライン表示',1)}render()}
-async function fetchRate(){try{const r=await fetch('https://open.er-api.com/v6/latest/THB');const j=await r.json();const v=j&&j.rates&&+j.rates.JPY;if(v>0){RATE=v;RATE_LIVE=true;render()}}catch(e){}}
+async function load(q){try{const r=await fetch('/api/plan',{cache:'no-store'});if(r.ok){const j=await r.json();if(j&&j.days){P=j;if(!FX_LIVE){RJ=+P.rate||RJ;RC=+P.rateC||RC}}}}catch(e){if(!q)toast('オフライン表示',1)}render()}
+const fxDay=()=>new Date(Date.now()+9*36e5).toISOString().slice(0,10);
+async function fetchFX(){try{const c=JSON.parse(localStorage.getItem('tp_fx')||'null');if(c&&c.d==fxDay()&&+c.j>0&&+c.c>0){RJ=+c.j;RC=+c.c;FX_DATE=c.u||'';FX_LIVE=true;render();return}}catch(e){}
+try{const r=await fetch('https://open.er-api.com/v6/latest/THB');const j=await r.json();const jpy=j&&j.rates&&+j.rates.JPY,rcv=j&&j.rates&&+j.rates.CNY;
+if(jpy>0&&rcv>0){RJ=jpy;RC=rcv;FX_LIVE=true;const dt=j.time_last_update_utc?new Date(j.time_last_update_utc):null;FX_DATE=dt?dt.getUTCFullYear()+'/'+(dt.getUTCMonth()+1)+'/'+dt.getUTCDate():fxDay().replace(/-/g,'/');try{localStorage.setItem('tp_fx',JSON.stringify({d:fxDay(),j:jpy,c:rcv,u:FX_DATE}))}catch(e){}render()}}catch(e){}}
 document.getElementById('eb').onclick=e=>{E=!E;document.body.classList.toggle('editing',E);e.target.classList.toggle('on',E);e.target.textContent=E?'✓':'✎';if(!E)close_()};
 
 MN.addEventListener('scroll',()=>requestAnimationFrame(spy));
 render();
 const h0=location.hash.slice(1),dm=h0.match(/^day-(\d+)$/);
 if(dm)jumpDay(+dm[1]);else if(['plan','money','prep'].indexOf(h0)>=0)tab(h0,true);else tab('today',true);
-if(location.protocol!='file:'){load();fetchRate();fetchWX()}
+if(location.protocol!='file:'){load();fetchFX();fetchWX()}
 </script>
 </body>
 </html>
