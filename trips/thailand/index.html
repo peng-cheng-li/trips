@@ -204,7 +204,7 @@ const T0=Date.now();setInterval(tick,1000);
 function cdT(){const n=+NOW();if(n<DEP){const t=Math.floor((DEP-n)/6e4);return `出発まで <b>${Math.floor(t/1440)}</b>日 <b>${Math.floor(t%1440/60)}</b>時間 <b>${t%60}</b>分`}
 if(n<RET){const b=new Date(n+7*36e5),i=P.days.findIndex(d=>{const x=dd(d);return x&&x[0]==b.getUTCMonth()+1&&x[1]==b.getUTCDate()});return `旅行中 <b>Day ${i<0?'—':i}</b>`}return 'お疲れさまでした'}
 
-function toast(m,err){const t=$('#toast');t.textContent=m;t.className='toast glass'+(err?' err':'');t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2600)}
+function toast(m,err){const t=$('#toast');t.textContent=m;t.className='toast'+(err?' err':'');t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2600)}
 const MN=document.getElementById('main');
 function cp(el){const t=el.dataset.t||'';const done=()=>toast('コピーしました');if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done).catch(()=>toast('コピー失敗',1));else{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){toast('コピー失敗',1)}ta.remove()}}
 function dayRows(di){const d=P.days[di];let tot=0,h='';d.rows.forEach((r,ri)=>{tot+=+r.c||0;const done=+r.a>0;const info=done?` <span class="y">実際 ${th(r.a)} ${esc(r.p||'')}</span> <span class="sp pd">記録済</span>`:(r.c?` <span class="y">約${th(r.c)}${on_(r)?'/人':''}</span>${sp(r)}`:'');
