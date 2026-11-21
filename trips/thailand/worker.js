@@ -57,5 +57,10 @@ export default { async fetch(req, env) {
     return new Response(JSON.stringify(plan), {headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}});
   }
   if (u.pathname === '/bg.webp') return new Response(Uint8Array.from(atob(BG), c=>c.charCodeAt(0)), {headers:{'content-type':'image/webp','cache-control':'public, max-age=604800'}});
+  const png = b => new Response(Uint8Array.from(atob(b), c=>c.charCodeAt(0)), {headers:{'content-type':'image/png','cache-control':'public, max-age=604800'}});
+  if (u.pathname === '/icon-180.png') return png(I180);
+  if (u.pathname === '/icon-192.png') return png(I192);
+  if (u.pathname === '/icon-512.png') return png(I512);
+  if (u.pathname === '/manifest.webmanifest') return new Response(MANIFEST, {headers:{'content-type':'application/manifest+json; charset=utf-8','cache-control':'public, max-age=86400'}});
   return new Response(H, {headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-cache'}});
 } };
