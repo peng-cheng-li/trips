@@ -24,6 +24,7 @@ export default { async fetch(req, env) {
       if (!x || typeof x.name !== 'string' || x.name.length > 100) return new Response('bad item', {status:400});
       const c = +x.c; if (!isFinite(c) || c < 0 || c > 10000000) return new Response('bad amount', {status:400});
       const it = {name: x.name, c: c, s: x.s === true};
+      if (x.cur === 'CNY' || x.cur === 'JPY') { const o = +x.o; if (!isFinite(o) || o < 0 || o > 100000000) return new Response('bad amount', {status:400}); it.o = o; it.cur = x.cur; const rj = +x.rj, rc = +x.rc; if (isFinite(rj) && rj > 0) it.rj = rj; if (isFinite(rc) && rc > 0) it.rc = rc; }
       if (Array.isArray(x.w)) { const w = x.w.filter(m => MEMS.includes(m)); if (w.length && w.length < 3) it.w = w; }
       clean.push(it);
     }
