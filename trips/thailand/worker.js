@@ -12,6 +12,29 @@ export default { async fetch(req, env) {
     }
     return new Response('method', {status:405});
   }
+  if (u.pathname === '/api/ocr') {
+    // Receipt / payment-screenshot recognition via Workers AI vision (free tier). Read-only: never touches the plan.
+    if (req.method !== 'POST') return new Response('method', {status:405});
+    const t = await req.text(); if (t.length > 4000000) return new Response('too large', {status:413});
+    let j; try { j = JSON.parse(t); } catch { return new Response('bad json', {status:400}); }
+    const b64 = typeof j.img === 'string' ? j.img.replace(/^data:[^,]+,/, '') : '';
+    if (!b64 || b64.length < 100) return new Response('bad image', {status:400});
+    let bytes; try { bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0)); } catch { return new Response('bad image', {status:400}); }
+    if (!env.AI) return new Response(JSON.stringify({ok:false, err:'ai unavailable'}), {status:503, headers:{'content-type':'application/json'}});
+    const prompt = 'You read receipt and payment screenshots (Thai, Chinese, Japanese, English). Extract: name = shop name or what was paid for (short, keep the language of the image); amount = the final total amount paid (number only, no commas, no currency symbol); currency = THB for Thai baht, CNY for Chinese yuan, JPY for Japanese yen. Reply with ONLY this JSON object, nothing else: {"name":"...","amount":123,"currency":"THB"}';
+    try {
+      const r = await env.AI.run('@cf/meta/llama-3.2-11b-vision-instruct', {image: [...bytes], prompt: prompt, max_tokens: 200});
+      const txt = (r && r.response) || '';
+      let o = null;
+      const m = txt.match(/\{[\s\S]*?\}/);
+      if (m) { try { o = JSON.parse(m[0]); } catch { o = null; } }
+      if (!o) { const g = re => { const mm = txt.match(re); return mm ? mm[1] : null; }; const nm = g(/"name"\s*:\s*"([^"]*)"/), am = g(/"amount"\s*:\s*"?([\d.]+)"?/), cu = g(/"currency"\s*:\s*"(THB|CNY|JPY)"/); if (am || nm) o = {name: nm || '', amount: am, currency: cu || 'THB'}; }
+      if (!o) return new Response(JSON.stringify({ok:false}), {headers:{'content-type':'application/json'}});
+      const cur = ['THB','CNY','JPY'].includes(o.currency) ? o.currency : 'THB';
+      const amt = +o.amount;
+      return new Response(JSON.stringify({ok:true, name: String(o.name || '').slice(0, 60), amount: (isFinite(amt) && amt > 0) ? amt : 0, currency: cur}), {headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}});
+    } catch (e) { return new Response(JSON.stringify({ok:false}), {headers:{'content-type':'application/json'}}); }
+  }
   if (u.pathname === '/api/personal') {
     // Expense-only writes, no edit key (owner's choice 2026-11-17): can only replace one member's personal expense list, nothing else in the plan.
     if (req.method !== 'POST') return new Response('method', {status:405});

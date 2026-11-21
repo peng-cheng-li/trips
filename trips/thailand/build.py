@@ -9,7 +9,7 @@ if '--deploy' in sys.argv:
   key=pathlib.Path(sys.argv[sys.argv.index('--deploy')+1]).read_text().strip()
   src='const H = '+json.dumps(html)+';\nconst DEF = '+json.dumps(plan)+';\nconst BG = '+json.dumps(base64.b64encode((d/'bg.webp').read_bytes()).decode())+';\n'+(d/'worker.js').read_text()
   b=base64.b64encode(src.encode()).decode()
-  meta={'main_module':'worker.js','compatibility_date':'2026-10-01','bindings':[{'type':'kv_namespace','name':'PLAN','namespace_id':'d5e243e2b5ad4a968003d5203e7a0fa6'},{'type':'secret_text','name':'EDIT_KEY','text':key}]}
+  meta={'main_module':'worker.js','compatibility_date':'2026-10-01','bindings':[{'type':'kv_namespace','name':'PLAN','namespace_id':'d5e243e2b5ad4a968003d5203e7a0fa6'},{'type':'secret_text','name':'EDIT_KEY','text':key},{'type':'ai','name':'AI'}]}
   js=f"""async () => {{
 const src = new TextDecoder().decode(Uint8Array.from(atob({json.dumps(b)}), c=>c.charCodeAt(0)));
 const form = new FormData();
